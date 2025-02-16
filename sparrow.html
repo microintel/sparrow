@@ -116,6 +116,7 @@ function delDab(){
 
 let request = indexedDB.deleteDatabase("SPRROWGEN");
 alert("logout scccessfully");
+location.href="slogin.html";
 request.onsuccess = function () {
    // alert("logout successfully");
     location.href="slogin.html";

@@ -65,14 +65,6 @@
 
         async function save() {
         if((ipin.value.length>5 && ipin.value.length<7) && (ifill.value!=="" && ifill.value!== " ") && (selF.value!=="urld")){
-        alert(8);
-        
-        }else{
-        alert(4848);
-        
-        }
-        
-        /*
         let r = indexedDB.open(dbn, 1);
         r.onupgradeneeded = e => {
         db = e.target.result;
@@ -83,33 +75,38 @@
         r.onerror = e => console.error("DB Error:", e.target.error);
         
         
-       if(selF.value=="url"){
-       let fet1= await fetch(idurl.value);
-       let fet2= await fetch(ipurl.value);
-       con1= await fet1.text();
-       con2=await fet2.text();
-       }else{
-       con1=idaDF;
-       con2=ipaDF;
-       }
-         
+        if(selF.value=="url"){
+        let fet1= await fetch(idurl.value);
+        let fet2= await fetch(ipurl.value);
+        con1= await fet1.text();
+        con2=await fet2.text();
+        }else{
+        con1=idaDF;
+        con2=ipaDF;
+        }
+        
         // alert(ipin.value);
-      let cx= CryptoJS.AES.encrypt(ifill.value,ipin.value.toString()).toString();
-            let data = { 
-                name: iname.value,
-                dataUrl: con1,
-                passUrl: con2, 
-                filePass:cx
-            };
-            
-           let t = db.transaction(stn, "readwrite").objectStore(stn).add(data);
-            t.onsuccess = () => {
-            alert("Data Stored In DATABASE PERFECTLY...");
-           // load();
-           location.href="sparrow.html";
-            };
-            
-            */
+        let cx= CryptoJS.AES.encrypt(ifill.value,ipin.value.toString()).toString();
+        let data = { 
+        name: iname.value,
+        dataUrl: con1,
+        passUrl: con2, 
+        filePass:cx
+        };
+        
+        let t = db.transaction(stn, "readwrite").objectStore(stn).add(data);
+        t.onsuccess = () => {
+        alert("Data Stored In DATABASE PERFECTLY...");
+        // load();
+        location.href="sparrow.html";
+        };
+        
+        }else{
+        alert("Condition Not Satisfied");
+        
+        }
+        
+     
         }
 
         function load() {
