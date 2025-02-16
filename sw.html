@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>Kazama</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
@@ -75,11 +74,15 @@
 <body>
 
     <h3>Kazama <br> White pigeon </h3>
+    <input onchange="upPas()" type="file" id="fileInput1">
+    <input autocomplete="off" id="p1" placeholder="Enter Sky Password.." >
+    <input autocomplete="off" id="p2" placeholder="Enter Breeze Password.." >
     
-    <input id="name" placeholder="Data Refreence">
-    <input id="v0" placeholder="Data">
+    <input autocomplete="off" id="name" placeholder="Data Refreence">
+    <input autocomplete="off" id="v0" placeholder="Data">
     <button onclick="upd()">Upd</button>
     <button onclick="down()">Down</button>
+    
 
     <input onchange="upload()" type="file" id="fileInput">
     <div class="pr">
@@ -89,68 +92,194 @@
 
 <a href="slogin.html" > Click Here to login into Sparrow </a>
     <script>
+    let d = {};
+    let ed = {};
+    
+    
+    function getAllData(dbName, storeName) {
+    let request = indexedDB.open(dbName);
+    let pinPro= prompt("Enter Your 6 Digit Sparrow Pin...") || "nkn";
+    request.onsuccess = function (event) {
+    let db = event.target.result;
+    let transaction = db.transaction(storeName, "readonly");
+    let store = transaction.objectStore(storeName);
+    let getAR = store.getAll();
+    try{
+    getAR.onsuccess = function () {
+    let filP=getAR.result[0].filePass; //1234
+ 
+    let filPF=getAR.result[0].passUrl;//pass
+    let filDDP=CryptoJS.AES.decrypt(filP,pinPro.toString()).toString(CryptoJS.enc.Utf8);
+    // alert(filDDP);//nkn
+    let filPPD=CryptoJS.AES.decrypt(filPF,filDDP.toString()).toString(CryptoJS.enc.Utf8);
+    //filPPD["sky"].toString();
+    let filPX=JSON.parse(filPPD);
+  // alert(filPX["sky"]);
+    document.getElementById("p1").value=filPX["sky"];
+    document.getElementById("p2").value=filPX["breez"];
+    document.getElementById("fileInput1").style.display="none";
+    
+    
+    };
+    }catch(e){
+    return;
+    
+    }
+    
+    getAR.onerror = function () {
+    console.log("Error getting data:", getAR.error);
+    };
+    };
+    
+    request.onerror = function () {
+    console.log("Error opening database:", request.error);
+    };
+    }
+    
+    async function checkDB() {
+    let dbs = await indexedDB.databases();
+    let exists = dbs.some(db => db.name === "SPRROWGEN");
+    
+    if (!exists) {
+    console.log("Database does not exist");
+    return;
+    }else{
+    
+    getAllData("SPRROWGEN","bird");
+    
+    }
+    
+    
+    }
+    checkDB();
     
     
     
     
-        let d = {};
-        let ed={};
-        function upd() {
-            let k = document.getElementById("name").value.trim().toLowerCase().replace(/ /g,"-");
-            let v0 = document.getElementById("v0").value.trim().toLowerCase().replace(/ /g,"-");
-            if (k && v0) {
-                d[k] = v0;
-                ed[k]= CryptoJS.AES.encrypt(v0,"hi").toString();
-                document.getElementById("out").textContent = JSON.stringify(d, null, 2);
-                document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
-            }
-            
-            document.getElementById("name").value="";
-            document.getElementById("v0").value="";
-            
-        }
-
-        function down() {
-            // Alert messages before downloading
-            
-            let enc = CryptoJS.AES.encrypt(JSON.stringify(ed),"nkn").toString();
-            let blob = new Blob([enc], { type: "application/json" });
-            let a = document.createElement("a");
-            a.href = URL.createObjectURL(blob);
-            a.download = "data.json";
-            a.click();
-        }
-
-        function upload() {
-        
-            let fileInput = document.getElementById("fileInput");
-            let file = fileInput.files[0];
-
-            if (!file) {
-                alert("Please select a file first!");
-                return;
-            }
-            let reader = new FileReader();
-            reader.onload = function(event) {
-                let encryptedData = event.target.result;
-                let password = "nkn";
-                    let decrypted = CryptoJS.AES.decrypt(encryptedData, password).toString(CryptoJS.enc.Utf8);
-                    let parsedData = JSON.parse(decrypted.trim().replace(/ /g,""));
-                    document.getElementById("out2").textContent = JSON.stringify(parsedData, null, 2);
-                    d={...parsedData};
-                    let xx;
-                    Object.keys(d).forEach((y)=>{
-                     d[y]=CryptoJS.AES.decrypt(d[y],"hi").toString(CryptoJS.enc.Utf8);
-                    
-                    });
-                    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
-                    ed={...parsedData};
-                    
-                
-            };
-
-            reader.readAsText(file);
-        }
+    function upd() {
+    let k = document.getElementById("name").value.trim().toLowerCase().toString().replace(/ /g,"-");
+    let v0 = document.getElementById("v0").value.trim().toLowerCase().toString().replace(/ /g,"-");
+    let v1 = document.getElementById("p1").value.trim();
+    let v2 = document.getElementById("p2").value.trim();
+    
+    if (k === "" || v0 === "" || v1 === "" || v2 === "") {
+    alert("All fields must be filled.");
+    return;
+    }
+    
+    d[k] = v0;
+    ed[k] = CryptoJS.AES.encrypt(v0, v1).toString();
+    
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
+    
+    document.getElementById("name").value = "";
+    document.getElementById("v0").value = "";
+    }
+    
+    function down() {
+    let v2 = document.getElementById("p2").value.trim();
+    if (v2 === "") {
+    alert("Master Key required for encryption.");
+    return;
+    }
+    
+    let enc = CryptoJS.AES.encrypt(JSON.stringify(ed), v2).toString();
+    let blob = new Blob([enc], { type: "application/json" });
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "data.json";
+    a.click();
+    }
+    
+    function upload() {
+    alert(JSON.stringify(d));
+    alert(JSON.stringify(ed));
+    let fileInput = document.getElementById("fileInput");
+    let file = fileInput.files[0];
+    
+    if (!file) {
+    alert("Please select a file first!");
+    return;
+    }
+    
+    let reader = new FileReader();
+    reader.onload = function (event) {
+    let encryptedData = event.target.result;
+    let v2 = document.getElementById("p2").value.trim();
+    
+    if (v2 === "") {
+    alert("Master Key required for decryption.");
+    return;
+    }
+    
+    try {
+    let decrypted = CryptoJS.AES.decrypt(encryptedData, v2).toString(CryptoJS.enc.Utf8);
+    let parsedData = JSON.parse(decrypted);
+    
+    document.getElementById("out2").textContent = JSON.stringify(parsedData, null, 2);
+    
+    d = {};
+    for (let key in parsedData) {
+    d[key] = CryptoJS.AES.decrypt(parsedData[key],document.getElementById("p1").value.trim()).toString(CryptoJS.enc.Utf8);
+    }
+    
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+    ed = parsedData;
+    
+    
+    alert(JSON.stringify(d));
+    alert(JSON.stringify(ed));
+    } catch (e) {
+    alert("Decryption failed. Check your password.");
+    }
+    };
+    
+    reader.readAsText(file);
+    }
+    
+    
+    function upPas() {
+    let fileInput = document.getElementById("fileInput1");
+    let file = fileInput.files[0];
+    
+    if (!file) {
+    alert("Please select a file first!");
+    return;
+    }
+    
+    let reader = new FileReader();
+    reader.onload = function (event) {
+    let encryptedData = event.target.result;
+    let v2 = prompt("Enter Breeze Password..");
+    
+    if (v2 === "") {
+    alert("Master Key required for decryption.");
+    return;
+    }
+    
+    try {
+    let decrypted = CryptoJS.AES.decrypt(encryptedData, v2).toString(CryptoJS.enc.Utf8);
+    let parsedData = JSON.parse(decrypted);
+    
+    document.getElementById("p1").value=parsedData["sky"];
+    document.getElementById("p2").value=parsedData["breez"];
+   // document.getElementById("out2").textContent = JSON.stringify(parsedData, null, 2);
+    
+  //  d = {};
+  // for (let key in parsedData) {
+ //  d[key] = CryptoJS.AES.decrypt(parsedData[key],parsedData["sky"]).toString(CryptoJS.enc.Utf8);
+    }
+    
+  //  document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+  // ed = parsedData;
+     catch (e) {
+    alert("Decryption failed. Check your password.");
+    }
+    };
+    
+    reader.readAsText(file);
+    }
     </script>
 
 </body>
