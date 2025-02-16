@@ -69,6 +69,15 @@
     
     }
     
+    .proE{
+    display:flex;
+    flex-direction:column;
+    justify-content:space-between;
+    gap:5px;
+    text-align:left;
+    
+    }
+    
     
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"> </script>
@@ -103,11 +112,17 @@
 <div class="p-modal" id="p-modal">
     <h2>Profile</h2>
     <center>
+    
     <div class="proi">
     <i class="fa fa-sign-out" onclick="delDab()" style="color:red;"></i>
     <i class="fas fa-edit" onclick="location.href='sw.html'" style="color:red;"></i>
     
     <i class="fa-solid fa-close" style="color:red;" onclick="closeP()"></i>
+    </div>
+    <div class="proE">
+    <h4 id="usn"> User Name  </h4>
+    <h4 id="spd"> Sky PassWD  </h4>
+    <h4 id="bpd"> Breeze PassWD   </h4>
     </div>
     </center>
 </div>
@@ -154,7 +169,9 @@ try{
            let filPPD=CryptoJS.AES.decrypt(filPF,filDDP.toString()).toString(CryptoJS.enc.Utf8);
             //filPPD["sky"].toString();
             let filPX=JSON.parse(filPPD);
-           
+           document.getElementById("usn").innerText= "User Name  : "+filPX["name"];
+           document.getElementById("spd").innerText= "Sky PassWd : "+filPX["sky"] ;
+           document.getElementById("bpd").innerText= "Breeze PassWd : "+filPX["breez"];
             let filDFD =CryptoJS.AES.decrypt(filD,filDDP).toString(CryptoJS.enc.Utf8);
             pData=JSON.parse(filDFD);
             
