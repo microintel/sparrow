@@ -1,0 +1,23 @@
+<html>
+
+
+<body>
+
+
+<script type="text/javascript">
+
+let request = indexedDB.deleteDatabase("SPRROWGEN");
+
+request.onsuccess = function () {
+    console.log("Database deleted successfully");
+};
+
+request.onerror = function () {
+    console.log("Error deleting database:", request.error);
+};
+
+
+
+</script>
+</body>
+</html>
