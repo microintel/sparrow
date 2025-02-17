@@ -2,13 +2,48 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DB App</title>
+    <title>Sparrow-Login</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/x-icon" href="icon512_maskable.png">
     <style type="text/css">
     
     #u1,#u2,#fi1,#fi2{
     
     display:none;
     }
+    
+    body{
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    background-color:black;
+    color:white;
+    margin:0px;
+    }
+    input,button,select{
+    height:6vh;
+    width:60%;
+    align-items:center;
+    border:1.5px solid grey;
+    border-radius:7px;
+    background-color:black;
+    color:white;
+    padding:5px;
+    margin:5px;
+    
+    }
+    input::placeholder{
+    color:white;
+    
+    }
+    a{
+    text-decoration:none;
+    color:white;
+    }
+    
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
@@ -23,17 +58,17 @@
     <option value="url"> Import From URL</option>
     <option value="file"> Import From File</option>
     </select>
-    <br><br>
-    <input type="url" id="u1" placeholder="Data Url 1" value="https://microintel.github.io/kazama/dani.json"><br><br>
-    <input type="url" id="u2" placeholder="Pass url 2" value="https://microintel.github.io/kazama/datap.txt">
     
-    <input type="file" id="fi1"><br><br>
-    <input type="file" id="fi2"><br><br>
+    <input type="url" id="u1" placeholder="Data Url 1" >
+    <input type="url" id="u2" placeholder="Pass url 2">
     
+    <input type="file" id="fi1">
+    <input type="file" id="fi2">
     
-    <br><br>
+    <hr>
+    
     <input autocomplete="off" type="text" id="p2" placeholder="breeze pass"><br><br>
-    <input autocomplete="off" type="text" id="pin" placeholder="Login Pin"><br><br>
+    <input autocomplete="off" type="number" id="pin" placeholder="Login Pin"><br><br>
     <button onclick="save()">Save</button>
 
   <!--  <h3>Records</h3> -->

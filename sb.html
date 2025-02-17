@@ -1,9 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+
+<html>
 <head>
-    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>Kazama</title>
+    <title>Black-Sparrow</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/x-icon" href="icon512_maskable.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <style>
         body {
@@ -69,8 +70,8 @@
     <h3>Black Sparrow</h3>
     
     <input autocomplete="off" id="n" placeholder="Enter Name">
-    <input autocomplete="off" id="v1" placeholder="Create Password For Sky">
-    <input autocomplete="off" id="v2" placeholder="Create Password For Breeze">
+    <input autocomplete="off" id="v1" placeholder="Create passwd For Sky">
+    <input autocomplete="off" id="v2" placeholder="Create passwd For Breeze">
 
     <button onclick="upd()">Upd</button>
     <button onclick="down()">Down</button>
@@ -105,11 +106,11 @@
             
             // Alert messages before downloading
             const messages = [
-                "Please remember your Breez password! ",
-                "Keep your Breez password safe!",
-                "Without your Breez password, you can't decrypt the file!",
-                "Write your Breez password down somewhere secure!",
-                "Your Breez password is important. Don't forget it!"
+                "Please remember your Breez passwd! ",
+                "Keep your Breez passwd safe!",
+                "Without your Breez passwd, you can't decrypt the file!",
+                "Write your Breez passwd down somewhere secure!",
+                "Your Breez passwd is important. Don't forget it!"
             ];
 
             messages.forEach((x)=>{
@@ -135,22 +136,22 @@
 
             let reader = new FileReader();
             reader.onload = function(event) {
-                let encryptedData = event.target.result;
-                let password = prompt("Enter the Breez password to decrypt:");
+                let enPDA = event.target.result;
+                let passwd = prompt("Enter the Breez passwd to decrypt:");
 
-                if (!password) {
+                if (!passwd) {
                     alert("Decryption canceled.");
                     return;
                 }
 
                 try {
-                    let decrypted = CryptoJS.AES.decrypt(encryptedData, password).toString(CryptoJS.enc.Utf8);
-                    let parsedData = JSON.parse(decrypted);
-                    document.getElementById("out").textContent = JSON.stringify(parsedData, null, 2);
-                    d = parsedData;
+                    let decnD = CryptoJS.AES.decrypt(enPDA, passwd).toString(CryptoJS.enc.Utf8);
+                    let parcnd = JSON.parse(decnD);
+                    document.getElementById("out").textContent = JSON.stringify(parcnd, null, 2);
+                    d = parcnd;
                     alert("Data Viewed...");
                 } catch (e) {
-                    alert("Decryption failed! Incorrect password or corrupted file.");
+                    alert("Decryption failed! Incorrect passwd or corrupted file.");
                 }
             };
 
