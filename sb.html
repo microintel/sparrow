@@ -83,8 +83,8 @@
     <input autocomplete="off" id="v1" placeholder="Create passwd For Sky">
     <input autocomplete="off" id="v2" placeholder="Create passwd For Breeze">
 
-    <button onclick="upd()">Upd</button>
-    <button onclick="down()">Down</button>
+    <button onclick="upd()">Upload</button>
+    <button onclick="down()">Download</button>
 
     <input onchange="upload()" type="file" id="fileInput">
 
@@ -131,7 +131,7 @@
             let blob = new Blob([enc], { type: "application/json" });
             let a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
-            a.download = "data.json";
+            a.download = "pass.json";
             a.click();
         }
 
