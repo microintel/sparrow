@@ -182,7 +182,7 @@
     function down() {
     let v2 = document.getElementById("p2").value.trim();
     if (v2 === "") {
-    alert("Master Key required for encryption.");
+    alert("Key required for encryption.");
     return;
     }
     
@@ -195,8 +195,8 @@
     }
     
     function upload() {
-    alert(JSON.stringify(d));
-    alert(JSON.stringify(ed));
+   // alert(JSON.stringify(d));
+   // alert(JSON.stringify(ed));
     let fileInput = document.getElementById("fileInput");
     let file = fileInput.files[0];
     
@@ -211,7 +211,7 @@
     let v2 = document.getElementById("p2").value.trim();
     
     if (v2 === "") {
-    alert("Master Key required for decryption.");
+    alert(" Key required for decryption.");
     return;
     }
     
@@ -230,8 +230,8 @@
     ed = parDa;
     
     
-    alert(JSON.stringify(d));
-    alert(JSON.stringify(ed));
+  //  alert(JSON.stringify(d));
+   // alert(JSON.stringify(ed));
     } catch (e) {
     alert("Decryption failed. Check your password.");
     }
@@ -256,7 +256,7 @@
     let v2 = prompt("Enter Breeze Password..");
     
     if (v2 === "") {
-    alert("Master Key required for decryption.");
+    alert(" Key required for decryption.");
     return;
     }
     
