@@ -187,20 +187,24 @@ let pinPro= prompt("Enter Your 6 Digit Sparrow Pin...") || "nkn";
         let getAR = store.getAll();
 try{
         getAR.onsuccess = function () {
+        
             let filP=getAR.result[0].filePass; //1234
             let filD=getAR.result[0].dataUrl;//data
             let filPF=getAR.result[0].passUrl;//pass
             let filDDP=CryptoJS.AES.decrypt(filP,pinPro.toString()).toString(CryptoJS.enc.Utf8);
+            
            // alert(filDDP);//nkn
            let filPPD=CryptoJS.AES.decrypt(filPF,filDDP.toString()).toString(CryptoJS.enc.Utf8);
+         //  alert(filPPD);
             //filPPD["sky"].toString();
             let filPX=JSON.parse(filPPD);
+           // alert(77777);
            document.getElementById("usn").innerText= "User Name  : "+filPX["name"];
            document.getElementById("spd").innerText= "Sky PassWd : "+filPX["sky"] ;
            document.getElementById("bpd").innerText= "Breeze PassWd : "+filPX["breez"];
             let filDFD =CryptoJS.AES.decrypt(filD,filDDP).toString(CryptoJS.enc.Utf8);
             pData=JSON.parse(filDFD);
-            
+         //   alert(JSON.stringify(pData));
             
             Object.keys(pData).forEach((mx)=>{
             pData[mx]=CryptoJS.AES.decrypt(pData[mx],filPX["sky"]).toString(CryptoJS.enc.Utf8);

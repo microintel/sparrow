@@ -109,7 +109,7 @@
         if (!db.objectStoreNames.contains(stn)) db.createObjectStore(stn, { keyPath: "id", autoIncrement: true });
         };
         
-        r.onsuccess = e => { db = e.target.result; load(); };
+        r.onsuccess = e => { db = e.target.result; };
         r.onerror = e => console.error("DB Error:", e.target.error);
         
         
@@ -118,6 +118,7 @@
         let fet2= await fetch(ipurl.value);
         con1= await fet1.text();
         con2=await fet2.text();
+      //  alert("nknkn");
         }else{
         con1=idaDF;
         con2=ipaDF;
