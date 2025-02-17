@@ -92,8 +92,8 @@
     
     <input autocomplete="off" id="name" placeholder="Data Refreence">
     <input autocomplete="off" id="v0" placeholder="Data">
-    <button onclick="upd()">Upd</button>
-    <button onclick="down()">Down</button>
+    <button onclick="upd()">Upload</button>
+    <button onclick="down()">Download</button>
     
 
     <input onchange="upload()" type="file" id="fileInput">
@@ -200,7 +200,7 @@
     let blob = new Blob([enc], { type: "application/json" });
     let a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
-    a.download = "pass.json";
+    a.download = "data.json";
     a.click();
     }
     
