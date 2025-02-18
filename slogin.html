@@ -90,6 +90,7 @@
     <ul id="list"></ul>
 
     <script>
+    delDab();
         let db, dbn = "SPRROWGEN", stn = "bird";
         
         let iname=document.getElementById("n");
@@ -127,7 +128,7 @@
        
 
         async function save() {
-        delDab();
+        
         if((ipin.value.length>5 && ipin.value.length<7) && (ifill.value!=="" && ifill.value!== " ") && (selF.value!=="urld")){
         let r = indexedDB.open(dbn, 1);
         r.onupgradeneeded = e => {
