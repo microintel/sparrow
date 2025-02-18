@@ -1,0 +1,247 @@
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparrow-Login</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/x-icon" href="icon512_maskable.png">
+    <style type="text/css">
+    
+    #u1,#u2,#fi1,#fi2{
+    
+    display:none;
+    }
+    
+    body{
+    display:flex;
+    flex-direction:column;
+    text-align:center;
+    justify-content:center;
+    align-items:center;
+    width:100%;
+    background-color:black;
+    color:white;
+    margin:0px;
+    }
+    input,button,select{
+    height:6vh;
+    width:60%;
+    align-items:center;
+    border:1.5px solid grey;
+    border-radius:7px;
+    background-color:black;
+    color:white;
+    padding:5px;
+    margin:5px;
+    
+    }
+    input::placeholder{
+    color:white;
+    
+    }
+    a{
+    text-decoration:none;
+    color:white;
+    }
+    .fa-circle-info{
+    position:absolute;
+    z-index:30;
+    top:10;
+    font-size:1.5rem;
+    right:5;
+    color:green;
+    }
+    </style>
+   <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+</head>
+<body>
+<i style="display:none;" onclick="location.href='sdoc.html'" class="fa-solid fa-circle-info"></i>
+    <h2> login to sparrow 
+     </h2>
+
+    <input autocomplete="off" type="text" id="n" placeholder="Name"><br><br>
+    
+    
+    <select id="sel" onchange="inFy(this)">
+    <option value="urld"> Select File</option>
+    <option value="url"> Import From URL</option>
+    <option value="file"> Import From File</option>
+    </select>
+    
+    <input type="url" id="u1" placeholder="Data Url 1" >
+    <input type="url" id="u2" placeholder="Pass url 2">
+    
+    <button style="display:none;" id="updf"> Upload Data File </button>
+    <button style="display:none;" id="uppf"> Upload PassWord File </button>
+    
+    <input type="file" id="fi1">
+    <input type="file" id="fi2">
+    
+  
+    
+    <input autocomplete="off" type="text" id="p2" placeholder="breeze pass"><br><br>
+    <input autocomplete="off" type="number" id="pin" placeholder="Login Pin"><br><br>
+    <button onclick="save()">Save</button>
+
+  <!--  <h3>Records</h3> -->
+  <br><br>
+  <a href="sb.html" > New to Sparrow? Click here to set up your data and password </a>
+    <ul id="list"></ul>
+
+    <script>
+        let db, dbn = "SPRROWGEN", stn = "bird";
+        
+        let iname=document.getElementById("n");
+        let idurl=document.getElementById("u1");
+        let ipurl=document.getElementById("u2");
+        let ifill=document.getElementById("p2");
+        let ipin=document.getElementById("pin");
+        let if1=document.getElementById("fi1");
+        let if2=document.getElementById("fi2");
+        let selF=document.getElementById("sel");
+        let idaDF=false;
+        let ipaDF=false;
+        let con1="";
+        let con2="";
+        
+        
+        
+        function delDab(){
+        
+        let requs = indexedDB.deleteDatabase("SPRROWGEN");
+        
+       
+        requs.onsuccess = function () {
+        // alert("logout successfully");
+        alert("The previous data files were deleted successfully.");
+        
+        };
+        
+        requs.onerror = function () {
+        console.log("Error deleting database:", requs.error);
+        };
+        
+        }
+        
+       
+
+        async function save() {
+        delDab();
+        if((ipin.value.length>5 && ipin.value.length<7) && (ifill.value!=="" && ifill.value!== " ") && (selF.value!=="urld")){
+        let r = indexedDB.open(dbn, 1);
+        r.onupgradeneeded = e => {
+        db = e.target.result;
+        if (!db.objectStoreNames.contains(stn)) db.createObjectStore(stn, { keyPath: "id", autoIncrement: true });
+        };
+        
+        r.onsuccess = e => { db = e.target.result; };
+        r.onerror = e => console.error("DB Error:", e.target.error);
+        
+        
+        if(selF.value=="url"){
+        let fet1= await fetch(idurl.value);
+        let fet2= await fetch(ipurl.value);
+        con1= await fet1.text();
+        con2=await fet2.text();
+      //  alert("nknkn");
+        }else{
+        con1=idaDF;
+        con2=ipaDF;
+        }
+        
+        // alert(ipin.value);
+        let cx= CryptoJS.AES.encrypt(ifill.value,ipin.value.toString()).toString();
+        let data = { 
+        name: iname.value,
+        dataUrl: con1,
+        passUrl: con2, 
+        filePass:cx
+        };
+        
+        let t = db.transaction(stn, "readwrite").objectStore(stn).add(data);
+        t.onsuccess = () => {
+        alert("New Files Are Stored PERFECTLY...");
+        // load();
+        location.href="sparrow.html";
+        };
+        
+        }else{
+        alert("Condition Not Satisfied");
+        
+        }
+        
+     
+        }
+
+        function load() {
+            let t = db.transaction(stn, "readonly").objectStore(stn).getAll();
+            
+            t.onsuccess = () => {
+                list.innerHTML = "";
+                t.result.forEach(d => {
+                    let li = document.createElement("li");
+                    li.innerHTML = `<strong>${d.name}</strong> 
+                        <br> <font>${d.dataUrl}</font>
+                        <br> <font>${d.passUrl}</font>
+                        <br> <font>${d.filePass}</font>
+                        <br> <button onclick="del(${d.id})">Delete</button>`;
+                    list.appendChild(li);
+                });
+            };
+        }
+
+        function del(id) {
+            let t = db.transaction(stn, "readwrite").objectStore(stn).delete(id);
+            t.onsuccess = () => load();
+        }
+        
+        document.getElementById("updf").addEventListener("click", function() {
+        document.getElementById("fi1").click();
+        });
+        
+        document.getElementById("uppf").addEventListener("click", function() {
+        document.getElementById("fi2").click();
+        });
+       
+        if1.addEventListener("change", (e) => {
+        let r = new FileReader();
+        r.onload = (d) => {idaDF=d.target.result;
+        alert("Data File Imported successfully");
+        document.getElementById("updf").style.backgroundColor="green";
+        };
+        r.readAsText(e.target.files[0]);
+        });
+        
+      
+        if2.addEventListener("change", (e) => {
+        let r1 = new FileReader();
+        r1.onload = (d1) =>{ ipaDF=d1.target.result;
+             alert("Passwird File Imported successfully");
+             document.getElementById("uppf").style.backgroundColor="green";
+        };
+        r1.readAsText(e.target.files[0]);
+        });
+        
+      
+        
+      function inFy(x){
+        
+        if(x.value!=="url"){
+        idurl.style.display="none";
+        ipurl.style.display="none";
+        document.getElementById("updf").style.display="block";
+        document.getElementById("uppf").style.display="block";
+        }else{
+        document.getElementById("updf").style.display="none";
+        document.getElementById("uppf").style.display="none";
+        idurl.style.display="block";
+        ipurl.style.display="block";
+        
+        }
+        }
+        
+        
+    </script>
+</body>
+</html>

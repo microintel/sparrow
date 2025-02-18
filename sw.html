@@ -1,0 +1,391 @@
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <title>White-Sparrow</title>
+    <link rel="manifest" href="manifest.json" />
+    <link rel="icon" type="image/x-icon" href="icon512_maskable.png">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <style>
+        body {
+            background: #000;
+            color: #fff;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 10px;
+        }
+
+        h3 {
+            color: #fff;
+            font-size: 18px;
+        }
+
+        input, button {
+            display: block;
+            width: 90%;
+            margin: 8px auto;
+            padding: 12px;
+            border: 1px solid #808080;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        input {
+            background: #000;
+            color: #fff;
+        }
+
+        input::placeholder {
+            color: #fff;
+        }
+
+        button {
+            background: #000;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button:active {
+            background: #111;
+        }
+
+        pre {
+        
+            background: #000;
+            padding: 10px;
+            border: 1px solid #808080;
+            border-radius: 5px;
+            text-align: left;
+            width: 48%;
+            margin: 8px auto;
+            font-size: 12px;
+            overflow-x: auto;
+        }
+        .pr{
+        display:flex;
+        width:100%;
+        gap:10px;
+        
+        }
+        
+        a{
+        color:white;
+        }
+        
+        .fa-circle-info{
+        position:absolute;
+        z-index:30;
+        top:10;
+        font-size:1.5rem;
+        right:5;
+        color:green;
+        }
+        a{
+        text-decoration:none;
+        color:green;
+        
+        }
+        
+        details {
+        margin-bottom: 10px;
+        border:none;
+        padding: 10px;
+        text-align:left;
+        border-radius: 5px;
+        background-color:black;
+        }
+        summary {
+        font-weight: bold;
+        cursor: pointer;
+        }
+        .warning {
+        color: red;
+        font-weight: bold;
+        }
+        
+        
+    </style>
+    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+</head>
+<body>
+<i onclick="ddoc()" class="fa-solid fa-circle-info"></i>
+    <h2>White Sparrow </h2>
+    
+    <details id="dic">
+    <summary style="display:none;">sjjs</summary>
+    <details>
+    <summary>Step 1 : Upload Password File (if exists)</summary>
+    <p>Enter the <strong>Breeze password</strong> to read <strong>Sky & Breeze</strong> values and autofill input boxes.</p>
+    </details>
+    
+    <details>
+    <summary>Step 2 : Upload Data File (if exists)</summary>
+    <p>Requires the <strong>password file first</strong>. Reads and displays <strong>encrypted & decrypted</strong> data.</p>
+    </details>
+    
+    <details>
+    <summary>Step 3 : Create Files</summary>
+    <p>If no files exist, first create a <strong>password file in Black Sparrow</strong>, then a <strong>data file in White Sparrow</strong>.</p>
+    </details>
+    
+    <details>
+    <summary>Step 4 : Upload Data</summary>
+    <p>Enter <strong>key-value pairs</strong> (data reference & value). If a data file exists, it updates the data.</p>
+    </details>
+    
+    <details>
+    <summary>Step 5 : Download Data File</summary>
+    <p>Saves the encrypted data file using the <strong>Breeze password</strong>.</p>
+    </details>
+    <p> Reload The Page If Any Unknkwn Problem Occured</p>
+    <p class="warning"> If the Breeze password is forgotten, everything is lost.</p>
+    <a href="sdoc.html" > Click Here Read Sparrow Documentation.</a>
+    </details>
+    
+    <button id="uppf"> Upload Pass File if it Exists</button>
+    <input style="display:none;" type="file" id="fileInput1">
+    
+    <button id="uppf1"> Upload Data File if it Exists</button>
+    <input style="display:none;" type="file" id="fileInput">
+    
+    <input autocomplete="off" id="p1" placeholder="Enter Sky Password.." >
+    <input autocomplete="off" id="p2" placeholder="Enter Breeze Password.." >
+    
+    <input autocomplete="off" id="name" placeholder="Data refrence (eg. IMEI Num )">
+    <input autocomplete="off" id="v0" placeholder="Data (eg. 10294848390138 )">
+    <button onclick="upd()">Upload</button>
+    <button onclick="down()">Download</button>
+    
+    
+    <div class="pr">
+    <pre id="out">{}</pre>
+<pre id="out2">{}</pre>
+</div>
+
+<a href="slogin.html" > Click Here to login into Sparrow </a>
+    <script>
+    
+    function ddoc(){
+    document.getElementById("dic").open=!document.getElementById("dic").open;
+    }
+    
+    document.getElementById("uppf").addEventListener("click", function() {
+    document.getElementById("fileInput1").click();
+    });
+    
+    document.getElementById("fileInput1").addEventListener("change", (e) => {
+    upPas();
+    });
+    
+    document.getElementById("uppf1").addEventListener("click", function() {
+    document.getElementById("fileInput").click();
+    });
+    
+    document.getElementById("fileInput").addEventListener("change", (e) => {
+    upload();
+    });
+    
+    
+    
+    
+    let d = {};
+    let ed = {};
+    
+    
+    function getAD(dnam, stnam) {
+    let requ = indexedDB.open(dnam);
+    let pinPro= prompt("Enter Sparrow Pin To Read Data File...");
+    requ.onsuccess = function (event) {
+    let db = event.target.result;
+    let transaction = db.transaction(stnam, "readonly");
+    let store = transaction.objectStore(stnam);
+    let getAR = store.getAll();
+    try{
+    getAR.onsuccess = function () {
+    let filP=getAR.result[0].filePass; //1234
+ 
+    let filPF=getAR.result[0].passUrl;//pass
+    let filDDP=CryptoJS.AES.decrypt(filP,pinPro.toString()).toString(CryptoJS.enc.Utf8);
+    // alert(filDDP);//nkn
+    let filPPD=CryptoJS.AES.decrypt(filPF,filDDP.toString()).toString(CryptoJS.enc.Utf8);
+    //filPPD["sky"].toString();
+    let filPX=JSON.parse(filPPD);
+  // alert(filPX["sky"]);
+    document.getElementById("p1").value=filPX["sky"];
+    document.getElementById("p2").value=filPX["breez"];
+    document.getElementById("fileInput1").style.display="none";
+    
+    
+    };
+    }catch(e){
+    return;
+    
+    }
+    
+    getAR.onerror = function () {
+    console.log("Error getting data:", getAR.error);
+    };
+    };
+    
+    requ.onerror = function () {
+    console.log("Error opening database:", requ.error);
+    };
+    }
+    
+    async function checkDB() {
+    let dbs = await indexedDB.databases();
+    let exists = dbs.some(db => db.name === "SPRROWGEN");
+    
+    if (!exists) {
+    console.log("Database does not exist");
+    return;
+    }else{
+    
+    getAD("SPRROWGEN","bird");
+    
+    }
+    
+    
+    }
+    checkDB();
+    
+    
+    
+    
+    function upd() {
+    let k = document.getElementById("name").value.trim().toLowerCase().toString().replace(/ /g,"-");
+    let v0 = document.getElementById("v0").value.trim().toLowerCase().toString().replace(/ /g,"-");
+    let v1 = document.getElementById("p1").value.trim();
+    let v2 = document.getElementById("p2").value.trim();
+    
+    if (k === "" || v0 === "" || v1 === "" || v2 === "") {
+    alert("All fields must be filled.");
+    return;
+    }
+    
+    d[k] = v0;
+    ed[k] = CryptoJS.AES.encrypt(v0, v1).toString();
+    
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
+    
+    document.getElementById("name").value = "";
+    document.getElementById("v0").value = "";
+    }
+    
+    function down() {
+    let v2 = document.getElementById("p2").value.trim();
+    if (v2 === "") {
+    alert("Key required for encryption.");
+    return;
+    }
+    
+    let enc = CryptoJS.AES.encrypt(JSON.stringify(ed), v2).toString();
+    let blob = new Blob([enc], { type: "application/json" });
+    let a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "data.json";
+    a.click();
+    }
+    
+    function upload() {
+   // alert(JSON.stringify(d));
+   // alert(JSON.stringify(ed));
+    let fileInput = document.getElementById("fileInput");
+    let file = fileInput.files[0];
+    
+    if (!file) {
+    alert("Please select a file first!");
+    return;
+    }
+    
+    let reader = new FileReader();
+    reader.onload = function (event) {
+    let encPDA = event.target.result;
+    let v2 = document.getElementById("p2").value.trim();
+    
+    if (v2 === "") {
+    alert("Please Upload the pass file or enter Sky,Breeze Password in input Boxes...");
+    document.getElementById("uppf1").style.backgroundColor="red";
+    document.getElementById("uppf1").style.border="2px solid black";
+    
+    return;
+    }
+    
+    try {
+    let decPDA = CryptoJS.AES.decrypt(encPDA, v2).toString(CryptoJS.enc.Utf8);
+    let parDa = JSON.parse(decPDA);
+    
+    document.getElementById("out2").textContent = JSON.stringify(parDa, null, 2);
+    document.getElementById("uppf1").style.backgroundColor="green";
+    document.getElementById("uppf1").style.border="2px solid black";
+    d = {};
+    for (let key in parDa) {
+    d[key] = CryptoJS.AES.decrypt(parDa[key],document.getElementById("p1").value.trim()).toString(CryptoJS.enc.Utf8);
+    }
+    
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+    ed = parDa;
+    
+    
+  //  alert(JSON.stringify(d));
+   // alert(JSON.stringify(ed));
+    } catch (e) {
+    alert("Decryption failed. Check your password.");
+    }
+    };
+    
+    reader.readAsText(file);
+    }
+    
+    
+    function upPas() {
+    let fileInput = document.getElementById("fileInput1");
+    let file = fileInput.files[0];
+    
+    if (!file) {
+    alert("Please select a file first!");
+    return;
+    }
+    
+    let reader = new FileReader();
+    reader.onload = function (event) {
+    let encPDA = event.target.result;
+    let v2 = prompt("Enter Breeze Password To Read Pass File..");
+    
+    if (v2 === "") {
+    alert("Breeze Password Required For Reading File...");
+    return;
+    }
+    
+    try {
+    let decPDA = CryptoJS.AES.decrypt(encPDA, v2).toString(CryptoJS.enc.Utf8);
+    let parDa = JSON.parse(decPDA);
+    
+    document.getElementById("p1").value=parDa["sky"];
+    document.getElementById("p2").value=parDa["breez"];
+    alert("Pass File Read successfully...");
+    document.getElementById("uppf").style.backgroundColor="green";
+    document.getElementById("uppf").style.border="2px solid black";
+   // document.getElementById("out2").textContent = JSON.stringify(parDa, null, 2);
+    
+  //  d = {};
+  // for (let key in parDa) {
+ //  d[key] = CryptoJS.AES.decrypt(parDa[key],parDa["sky"]).toString(CryptoJS.enc.Utf8);
+    }
+    
+  //  document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+  // ed = parDa;
+     catch (e) {
+    alert("File Reading Failed, Due to Incorrect Password.");
+    document.getElementById("uppf").style.backgroundColor="red";
+    document.getElementById("uppf").style.border="2px solid black";
+    }
+    };
+    
+    reader.readAsText(file);
+    }
+    </script>
+
+</body>
+</html>

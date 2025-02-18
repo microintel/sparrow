@@ -1,0 +1,181 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparrow Doc</title>
+    <style>
+    html{
+    scroll-behavior:smooth;
+    }
+        body { font-family:Monospace; background: #000; color: #fff; line-height: 1.8; margin: 40px; }
+        .box { max-width: 800px; margin: auto; background: #000; padding: 20px; border-radius: 5px; }
+        .sec { margin-bottom: 30px; }
+        h1, h2 ,a{ color: #fff; text-decoration:none;}
+        .imp { background: #222; padding: 15px; border-left: 5px solid #fff; }
+        .ex { background: #222; padding: 10px; margin-top: 10px; border-radius: 5px; }
+        img{
+        height:auto;
+        width:40%;
+        }
+    </style>
+</head>
+<body>
+
+<div class="box">
+<img src="https://raw.githubusercontent.com/microintel/endgram/main/photo/microintel-black-small.png">
+    <h1>Sparrow Documentation</h1>
+    <a href="#sum" > Click To Read Summary</a>
+    <div class="sec">
+        <h2>Purpose of Sparrow</h2>
+        
+        <p>In today's computational world, many people rely on password managers like Password Managers ,taking ScreenShot of it,pdf files to store sensitive information. However, these password managers are specifically designed to store only passwords and not other important digital data. There is also a risk when a device breaks or gets stolen—without the proper backup or encryption, all sensitive information can be lost or exposed. Password managers,Pdf,ScreenShots also tend to store data openly on client devices, which poses security risks.</p>
+        <p>Furthermore, the need for fast and efficient searching of stored data is often neglected. Searching within traditional password managers,Searching In PDF,Gallery is slow and cumbersome. </p>
+        <p><strong>Sparrow</strong> was developed to solve these problems. It allows users to store all kinds of digital data (not just passwords) securely with encryption. Unlike other managers, Sparrow hides the data on the client device and enables fast searches for quick retrieval. It is built with speed and security in mind, giving users control over their data without compromising on accessibility. </p>
+    </div>
+
+    <div class="sec">
+        <h2>Introduction</h2>
+        <p>Sparrow is Client-Side ,So Even we can't Read Your Data. Sparrow a secure storage application designed for managing credentials, passwords, credit card details, and other sensitive digital data. It ensures security using two types of encryption:</p>
+        <ul>
+            <li><strong>Sky Password:</strong> Encrypts and decrypts individual data values.</li>
+            <li><strong>Breeze Password:</strong> Encrypts and decrypts the entire file.</li>
+        </ul>
+        <div class="ex">
+            <strong>Example:</strong><br>
+            Sky Password: <code>DanielsKey123</code><br>
+            Breeze Password: <code>DanielsEncryption987</code>
+        </div>
+    </div>
+
+    <div class="sec">
+        <h2>Login</h2>
+        <p>To access Sparrow, the user must provide:</p>
+        <ul>
+            <li><strong>Name:</strong> User identification.</li>
+            <li><strong>File Input:</strong> Encrypted file uploaded manually or via URL.</li>
+            <li><strong>Breeze Password:</strong> Required to decrypt and access the file.</li>
+            <li><strong>Temporary PIN:</strong> Session-based PIN, active until logout.</li>
+        </ul>
+        <div class="ex">
+            <strong>Example:</strong><br>
+            Name: <code>Daniels</code><br>
+            File: <code>DanielsFile.sparrow</code><br>
+            Breeze Password: <code>Daniels-Chakli987</code><br>
+            Temporary PIN: <code>5678</code>
+        </div>
+    </div>
+
+    <div class="sec">
+        <h2>Black Sparrow</h2>
+        <p>Black Sparrow is responsible for creating and managing password files.</p>
+        <p>It requires:</p>
+        <ul>
+            <li><strong>Name:</strong> Identification for the password file.</li>
+            <li><strong>Sky Password:</strong> Encrypts individual stored values.</li>
+            <li><strong>Breeze Password:</strong> Encrypts the entire file for security.</li>
+        </ul>
+        <div class="ex">
+            <strong>Example:</strong><br>
+            Name: <code> Daniels </code><br>
+            Sky Password: <code>DanielsKey987</code><br>
+            Breeze Password: <code>DanielsLock567</code><br>
+            Action: <code>Create & Download Password File</code>
+        </div>
+    </div>
+
+    <div class="sec">
+        <h2>White Sparrow</h2>
+        <p>White Sparrow manages secure data storage in key-value pairs. Users can store and retrieve information safely.</p>
+        <p>Required inputs:</p>
+        <ul>
+            <li><strong>Sky Password:</strong> Encrypts and decrypts stored values.</li>
+            <li><strong>Breeze Password:</strong> Required to decrypt and access the file.</li>
+            <li><strong>Data Reference/ID:</strong> Unique identifier for stored data.</li>
+            <li><strong>Data:</strong> The actual credential, password, or information to be stored.</li>
+        </ul>
+        <div class="ex">
+            <strong>Example:</strong><br>
+            Sky Password: <code>DanielsKey987</code><br>
+            Breeze Password: <code>DanielsLock567</code><br>
+            Data Reference: <code>EmailLogin</code><br>
+            Data: <code>Dani-Daniels.1234@email.com | DaniPass@1234</code>
+        </div>
+    </div>
+
+    <div class="sec">
+        <h2>Sparrow Interface</h2>
+        <p>The Sparrow interface is a chat-like system where users can interact securely.</p>
+        <p>Features:</p>
+        <ul>
+            <li>Retrieve stored credentials by asking questions.</li>
+            <li>Solve mathematical expressions within the interface.</li>
+            <li>Perform web searches by clicking the Earth icon.</li>
+            <li>View profile details, including Name, Sky, and Breeze passwords.</li>
+            <li>Logout to end the session and lock the encrypted file.</li>
+        </ul>
+        <div class="ex">
+            <strong>Example:</strong><br>
+            User: <code>Show my EmailLogin</code><br>
+            Sparrow: <code>Dani-Daniels.1234@email.com | DanielsPass@1234</code><br>
+            User: <code>2 * 2?</code><br>
+            Sparrow: <code>4</code>
+        </div>
+    </div>
+
+    <div class="sec imp">
+        <h2>Critical Security Notes</h2>
+        <p>The <strong>Breeze password</strong> and <strong>encrypted file</strong> must be stored securely. Losing them results in total data loss.</p>
+        <p>Recommended backup options:</p>
+        <ul>
+            <li>Store on a USB drive.</li>
+            <li>Save in cloud storage.</li>
+            <li>Host securely on platforms like GitHub( <a style="color:red;" href="gitdoc.html" > Clik here to read more about github account creation ,repository,upload pages,commits,host...) </a>,Vercel...</li>
+            <li>Send a backup via private messaging.</li>
+        </ul>
+        <p>If the Breeze password is lost, all data is permanently inaccessible.</p>
+        
+    </div>
+    
+    <div id="sum" class="box">
+    <h2>Sparrow Workflow</h2>
+    
+    
+    <div class="sec">
+    <h2> Step 1</h2>
+    <h3>Black Sparrow</h3>
+    <p>Create <strong>password file</strong></p>
+    <div class="ex">Example: <code>Vault, Sky123, Breeze456</code></div>
+    </div>
+    
+    <div class="sec">
+    <h3>Login</h3>
+    <p>Enter <strong>name, file, Breeze, PIN</strong></p>
+    <div class="ex">Example: <code>John, data.sparrow, Secret123, 5678</code></div>
+    </div>
+    
+    <div class="sec">
+    <h3>White Sparrow</h3>
+    <p>Store <strong>key-value data</strong></p>
+    <div class="ex">Example: <code>EmailLogin → user@mail.com | Pass@123</code></div>
+    </div>
+    
+    <div class="sec">
+    <h3>Sparrow UI</h3>
+    <p><strong>Chat to retrieve, calculate, search</strong></p>
+    <div class="ex">Example: <code>Show EmailLogin → user@mail.com</code></div>
+    </div>
+    
+    <div class="sec imp">
+    <h3>Security</h3>
+    <p><strong>Backup Breeze & file</strong></p>
+    <div class="ex">Example: <code>USB, Cloud, GitHub</code></div>
+    </div>
+    </div>
+    
+    
+    <p><strong> Documentation Created by :</strong> AI With MicroIntel</p>
+    
+    
+</div>
+
+</body>
+</html>
