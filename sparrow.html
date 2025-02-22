@@ -294,28 +294,50 @@ function rndMsg() {
 }
 
 
+    function allG(obs) {
+    return Object.keys(obs)
+    .map(key => {
+    if (typeof obs[key] === "object" && obs[key] !== null) {
+    return `<br> <b>${key}</b> <br> ${allG(obs[key])}<br>`;
+    } 
+    return `<b>${key}</b> : ${obs[key]}<br>`;
+    })
+    .filter(Boolean)
+    .join(', ').replace(/,/g," ");
+    }
+    
     let box = document.getElementById("box");
     
     
-   // pData.toString().replace(/ /g,"");
-  
+    // pData.toString().replace(/ /g,"");
+    
     const lowKeys = o => 
     Object.fromEntries(Object.entries(o).map(([k, v]) => [k.toLowerCase(), v]));
-   // lowKeys(pData);
+    lowKeys(pData);
     
     
     let words = [...new Set(Object.keys(pData).flatMap(k => k.split("-")))];
-
+    
     function chk(input) {
-       input=input.toLowerCase();
-        let iWords = input.split("-");
-        return iWords.every(w => words.includes(w)) ? getAns(input) : getAns(input);
+    input = input.toLowerCase();
+    let iWords = input.split("-");
+    
+    if (iWords.every(w => words.includes(w))) {
+    
+    if(typeof(getAns(input)) ==="object"){
+    
+    return allG(getAns(input));
+    
+    }else{
+    return getAns(input);
     }
-
+    
+    }
+    
     function getAns(input) {
-  //  input=input.toLowerCase();
-  return pData[Object.keys(pData).find(k => k.split("-").sort().join("-") === input.split("-").sort().join("-"))] || "I don't understand.";
-        
+    //  input=input.toLowerCase();
+    return pData[Object.keys(pData).find(k => k.split("-").sort().join("-") === input.split("-").sort().join("-"))] || "I don't understand.";
+    }
     }
 
     
@@ -346,51 +368,49 @@ function rndMsg() {
         document.getElementById("inp").value = "";
     }
 
+
+
+
+
+    function typeE(el, txt) {
+    let temp = document.createElement("div");
+    temp.innerHTML = txt;
+    let nodes = Array.from(temp.childNodes);
+    
+    el.innerHTML = "";
+    let i = 0;
+    
+    function next() {
+    
+    if (i < nodes.length) {
+    el.appendChild(nodes[i].cloneNode(true));
+    i++;
+    
+    setTimeout(next, 50);
+    }
+    }
+    
+    next();
+    }
+    
     function addMsg(txt, cls) {
-    let div = document.createElement("div");
-    div.className = `msg ${cls}`;
- // div.id= "#"+cls.replace(/ /g,"-");
+    let d = document.createElement("div");
+    d.className = `msg ${cls}`;
     
-   //location.href=div.id;
-    if(cls=="b-msg"){
-    
-    div.innerText="";
-  //  resetIfMore(box);
-    div.innerHTML=txt;
-    div.ondblclick=()=>cpyto(txt);
-    box.prepend(div);
-    div.innerText="";
-  typeE(div, txt);
-   
-    }
-    else{
-   // resetIfMore(box);
-   box.prepend(div);
-    div.innerText=txt;
-    psm.currentTime=0;
+    if (cls == "b-msg") {
+    d.innerHTML="";
+    d.ondblclick = () => cpyto(txt);
+    box.prepend(d);
+    d.innerHTML=txt;
+    typeE(d, txt);
+    } else {
+    box.prepend(d);
+    d.innerHTML = txt;
+    psm.currentTime = 0;
     plMa(prm);
- 
     }
     
-    
-    
-   // div.onclick = function () {
-   // this.innerText = conED(this.innerText, "d");
-  //  };
-    
-   let cvg= box.scrollHeight;
-    
-    div.scrollTop = cvg;
-    
-    }
-    
-    
-    
-    function typeE(ele, te, ind = 0) {
-    if (ind < te.length) {
-    ele.innerHTML += te.charAt(ind);
-    setTimeout(() => typeE(ele, te, ind + 1), 20);
-    }
+    box.scrollTop = 0;
     }
 
     function openP() { document.getElementById("p-modal").style.display = "flex";tysv.style.display="none";}
