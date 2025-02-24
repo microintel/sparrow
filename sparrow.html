@@ -106,7 +106,7 @@
 <audio id="rmA" src="recmu.mp3"></audio>
 <audio id="jur" style="display:none;" src="jurassic.mp3"></audio>
 <center>
-<img id="typesv" class="type" src="https://readme-typing-svg.demolab.com?font=Roboto&size=25&duration=1500&pause=3000&color=FFFFFF&center=true&vCenter=true&width=440&lines=Your+figure%2C+your+fortress+-+;Sparrow+is+client-side;like+a+bird+in+your+hand;so+even+we+can't+read+your+data;Only+a+weak+password+allows+hacking;Everything+is+in+your+clutches;Sparrow+by+Microintel+has+your+back!+;Forgot+password%3F+is+the+most-clicked;button+on+the+internet.;My+password+is+so+secure;+even+I+can%E2%80%99t+remember+it." alt="Typing SVG" />
+<img id="typesv" style="padding:10px;" class="type" src="https://readme-typing-svg.demolab.com?font=Monospace&size=20&duration=1500&pause=3000&color=FFFFFF&center=true&vCenter=true&width=440&lines=Your+figure%2C+your+fortress+-+;Sparrow+is+client-side;like+a+bird+in+your+hand;so+even+we+can't+read+your+data;Only+a+weak+password+allows+hacking;Everything+is+in+your+clutches;Sparrow+by+Microintel+has+your+back!+;Forgot+password%3F+is+the+most-clicked;button+on+the+internet.;My+password+is+so+secure;+even+I+can%E2%80%99t+remember+it." alt="Typing SVG" />
 </center>
 
 <div class="chat">
@@ -124,7 +124,7 @@
         <i style="" class="fas fa-paper-plane" onclick="send()"></i>
         <div id="sug-box" class="sug-box"></div>
     </div>
-  <h6> Designed By MicroIntel ( GUI Coming Soon )</h6>
+  <h6> Powered By MicroIntel, <br>DuckDuckGo, Wikipedia ( GUI Coming Soon )</h6>
 </div>
 
 <div class="p-modal" id="p-modal">
@@ -174,10 +174,10 @@ requs.onerror = function () {
 
 }
 
-/*
+
 let pData={
   "aadhar":{
-    "aadhaar-name":"Dkkd",
+    "aadhaar-name": "Dkkd",
     "aadhaar-number":"Kdkd",
     "aadhaar-dob":"Ksks",
     "aadhaar-gender":"Kdks",
@@ -186,7 +186,7 @@ let pData={
     "aadhaar-enrollment-number":"Ksks"
   },
   "imei":"272727272",
-  "education":{
+  "education": {
   "1-10":{
   "primary":"gkbms",
   "hight":"ghps"
@@ -198,9 +198,9 @@ let pData={
   }
   }
 };
-*/
 
-let pData=0;
+
+//let pData=0;
 //let r = indexedDB.open("SPRROWGEN", 1);
 function getADD(dbName, stndd) {
     let requs = indexedDB.open(dbName);
@@ -269,7 +269,7 @@ async function checkDB() {
 
   
 }
-    checkDB();
+  // checkDB();
 
 
 
@@ -322,7 +322,7 @@ function rndMsg() {
  return Object.keys(obs)
  .map(key => {
  if (typeof obs[key] === "object" && obs[key] !== null) {
- return `<br> <b>${key}</b> <br> ${allG(obs[key])}`;
+ return `<br> <b style="color:#4e9a06;">${key}</b> <br> ${allG(obs[key])}`;
  } 
  return `${key} : ${obs[key]}<br>`;
  })
@@ -333,10 +333,10 @@ function rndMsg() {
     let box = document.getElementById("box");
     
     
-   // pData.toString().replace(/ /g,"");
+   pData.toString().replace(/ /g,"");
   
     const lowKeys = o => 
-    Object.fromEntries(Object.entries(o).map(([k, v]) => [k.toLowerCase(), v]));
+    Object.fromEntries(Object.entries(o).map(([k, v]) => [k.toLowerCase().replace(/ /g,""), v]));
     lowKeys(pData);
     
     
@@ -378,8 +378,8 @@ function rndMsg() {
         
         if(webE[0].className=="fa-solid fa-earth w" && !maTH(txt)){
         setTimeout( ()=>{
-        ranDU(txt).then(da=>addMsg(da,"b-msg"))}
-        ,1500);
+        diwi(txt).then(da=>addMsg(da,"b-msg"))}
+        ,1000);
         }
         else if(maTH(txt)){
         setTimeout(() => addMsg(eval(txt).toString(), "b-msg"), 1500);
@@ -419,10 +419,10 @@ function rndMsg() {
     if (j < text.length) {
     node.textContent += text[j];
     j++;
-    setTimeout(typeText, 20);
+    setTimeout(typeText, 2);
     } else {
     i++;
-    setTimeout(next, 20);
+    setTimeout(next, 2);
     }
     }
     
@@ -430,7 +430,7 @@ function rndMsg() {
     } else {
     el.appendChild(node);
     i++;
-    setTimeout(next, 20);
+    setTimeout(next, 2);
     }
     }
     }
@@ -529,7 +529,66 @@ function rndMsg() {
     }
     
     
+    
+    
+    async function searchWiki(qu) {
+    let q = qu.trim();
+    if (!q) return "No Quary provided.";
+    
+    try {
+    let response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&list=search&srsearch=${encodeURIComponent(q)}&origin=*`);
+    let data = await response.json();
+    
+    if (!data.query.search.length) return ranDU(q) || "No results found.";
+    
+    let results = data.query.search.map(item => item.title);
+    
+    for (let title of results) {
+    let extract = await fetchExtract(title);
+    
+    if (extract.toLowerCase().includes("may refer to:")) {
+    return ranDU(q);
+    }else{
+    return extract;
+    }
+    }
+    
+    return ranDU(q);
+    } catch {
+    return ranDU(q) || "Error fetching search results.";
+    }
+    }
+    
+    async function fetchExtract(title) {
+    try {
+    let response = await fetch(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts|pageprops&exintro&explaintext&titles=${encodeURIComponent(title)}&origin=*`);
+    let data = await response.json();
+    
+    let p = Object.values(data.query.pages)[0];
+    
+    if (p.pageprops && p.pageprops.disambiguation) {
+    return ranDU(q);
+    }
+    
+    return p.extract || ranDU(q);
+    } catch {
+    return ranDU(q);
+    }
+    }
+    
+    async function diwi(query) {
+    let result = await searchWiki(query);
+    return result;
+    
+    }
+    
+   
+    
+    
+    
+    
    async function ranDU(tx){
+  // alert(889);
    try{
     let qu=`https://api.duckduckgo.com/?q=${tx}&format=json`;
    let f= await fetch(qu);
