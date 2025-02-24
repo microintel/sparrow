@@ -20,7 +20,7 @@
             font-size: 18px;
         }
 
-        input, button {
+        input, button ,select{
             display: block;
             width: 90%;
             margin: 8px auto;
@@ -30,7 +30,7 @@
             font-size: 14px;
         }
 
-        input {
+        input ,select{
             background: #000;
             color: #fff;
         }
@@ -103,6 +103,21 @@
         font-weight: bold;
         }
         
+        select,.sele>input,.sele>button{
+        border:1px solid red;
+        }
+        #out{
+        border:3px solid green;
+        background-color:black;
+        color:white;
+        }
+        #out2{
+        background-color:black;
+        border:3px solid skyblue;
+        
+        color:white;
+        }
+        
         
     </style>
     <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -142,18 +157,61 @@
     <a href="sdoc.html" > Click Here Read Sparrow Documentation.</a>
     </details>
     
-    <button id="uppf"> Upload Pass File if it Exists</button>
+    <button id="uppf"> Upload Pass File</button>
     <input style="display:none;" type="file" id="fileInput1">
     
     <button id="uppf1"> Upload Data File if it Exists</button>
     <input style="display:none;" type="file" id="fileInput">
     
-    <input autocomplete="off" id="p1" placeholder="Enter Sky Password.." >
-    <input autocomplete="off" id="p2" placeholder="Enter Breeze Password.." >
+    <input style="display:none;" autocomplete="off" id="p1" placeholder="Enter Sky Password.." >
+    <input style="display:none;" autocomplete="off" id="p2" placeholder="Enter Breeze Password.."  >
+   
+   <select id="selcat" onchange="chsel(this)">
+      <option value=""> Select Category </option>ll
+      <option value="aadhar-details"> Aadhar Card </option>
+      <option value="pancard-details"> Pan Card</option>
+      <option value="single-data-details"> Single Data</option>
+      
+   </select>
     
-    <input autocomplete="off" id="name" placeholder="Data refrence (eg. IMEI Num )">
-    <input autocomplete="off" id="v0" placeholder="Data (eg. 10294848390138 )">
-    <button onclick="upd()">Upload</button>
+    <div style="display:none;" id="aadhar-details" class="sele aadhaar">
+    
+    <input id="aadhaar-refer" placeholder="Aadhaar Refrence(e.g. my aadhaar)">
+    <input id="aadhaar-name" placeholder="Name">
+    <input id="aadhaar-number" placeholder="Number">
+    <input id="aadhaar-dob" placeholder="Dob">
+    <input id="aadhaar-gender" placeholder="gender">
+    <input id="aadhaar-address" placeholder="address">
+    <input id="aadhaar-linked-phnumber" placeholder="linked phone number">
+    <input id="aadhaar-enrollment-number" placeholder="enrollment number">
+    
+    <button onclick="upd('aadhar-details')"> Save Data </button>
+    </div>
+    
+    <div style="display:none;" id="pancard-details" class="sele pancard">
+    
+    <input id="pancard-refer" placeholder="PAN Card Reference (e.g. my PAN card)">
+    <input id="pancard-name" placeholder="Name">
+    <input id="pancard-number" placeholder="Number">
+    <input id="pancard-dob" placeholder="DOB">
+    <input id="pancard-gender" placeholder="Gender">
+    <input id="pancard-address" placeholder="Address">
+    <input id="pancard-linked-phnumber" placeholder="Linked Phone Number">
+    <input id="pancard-enrollment-number" placeholder="Enrollment Number">
+    
+    <button onclick="upd('pancard-details')"> Save Data </button>
+    </div>
+    
+    <div style="display:none;" id="single-data-details" class="sele pancard">
+    
+    <input id="single-data-refer" placeholder="Data Reference (e.g. IMEI NUMNER)">
+    <input id="single-data-value" placeholder="Data (e.g. 38283828338)">
+ 
+    <button onclick="upd('single-data-details')"> Save Data </button>
+    </div>
+    
+    
+    <button style="display:none;" onclick="upd()">Upload</button>
     <button onclick="down()">Download</button>
     
     
@@ -164,6 +222,13 @@
 
 <a href="slogin.html" > Click Here to login into Sparrow </a>
     <script>
+    
+    
+    function chsel(x){
+    
+    Array.from(document.getElementsByClassName("sele")).forEach(x=>x.style.display="none");
+    document.getElementById(x.value).style.display="";
+    }
     
     function ddoc(){
     document.getElementById("dic").open=!document.getElementById("dic").open;
@@ -252,26 +317,58 @@
     
     
     
-    function upd() {
-    let k = document.getElementById("name").value.trim().toLowerCase().toString().replace(/ /g,"-");
-    let v0 = document.getElementById("v0").value.trim().toLowerCase().toString().replace(/ /g,"-");
-    let v1 = document.getElementById("p1").value.trim();
-    let v2 = document.getElementById("p2").value.trim();
     
-    if (k === "" || v0 === "" || v1 === "" || v2 === "") {
-    alert("All fields must be filled.");
-    return;
+    
+    
+    function upd(ids) {
+    
+    let skyp = document.getElementById("p1").value.trim();
+   
+    let temd={};
+    let temd1={};
+    
+    let getEl= document.getElementById(ids);
+    let chilen= getEl.children.length;
+   
+    if(chilen<=3){
+    
+    d[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=getEl.children[1].value.trim().replace(/ /g,"-");
+    ed[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=CryptoJS.AES.encrypt(getEl.children[1].value.trim().replace(/ /g,"-").toString(),skyp).toString();
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
+    
+    
+    }else{
+    for(let x=1;x<chilen-1;x++){
+    
+    let chi=getEl.children[x];
+    if(chi.value==="" || chi.value===null || getEl.children[0].value===""){
+    alert("please enter all feild");
+    return
+    }
+    temd[chi.id.trim().replace(/ /g,"-").toString()]=chi.value.trim().replace(/ /g,"-").toString();
+    temd1[chi.id.trim().replace(/ /g,"-")]= CryptoJS.AES.encrypt(chi.value.trim().replace(/ /g,"-").toString(),skyp).toString();
+    
     }
     
-    d[k] = v0;
-    ed[k] = CryptoJS.AES.encrypt(v0, v1).toString();
+    let refs=getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString();
+    d[refs.toString()]=temd;
+    ed[refs.toString()]=temd1;
     
     document.getElementById("out").textContent = JSON.stringify(d, null, 2);
     document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
     
-    document.getElementById("name").value = "";
-    document.getElementById("v0").value = "";
+    
+ }
+    
+    
     }
+    
+    
+    
+    
+    
+    
     
     function down() {
     let v2 = document.getElementById("p2").value.trim();
@@ -319,19 +416,49 @@
     document.getElementById("out2").textContent = JSON.stringify(parDa, null, 2);
     document.getElementById("uppf1").style.backgroundColor="green";
     document.getElementById("uppf1").style.border="2px solid black";
-    d = {};
-    for (let key in parDa) {
-    d[key] = CryptoJS.AES.decrypt(parDa[key],document.getElementById("p1").value.trim()).toString(CryptoJS.enc.Utf8);
+    m = {};
+    
+    function allG(obs) {
+    Object.keys(obs)
+    .map(key => {
+    if (typeof obs[key] === "object" && obs[key] !== null) {
+  //  alert(m[key]);
+    return m[key]=allG(obs[key]);
+    }else{
+   // alert(m[key]);
+    return m[key]=CryptoJS.AES.decrypt(obs[key],"S").toString(CryptoJS.enc.Utf8);
+    }
+    })
+    .filter(Boolean)
+    .join(', ');
     }
     
-    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+    
+    
+  Object.keys(parDa).forEach((x)=>{
+  if(typeof(parDa[x])==="object"){
+  
+  d[x]=allG(parDa[x]);
+//  alert(JSON.stringify(parDa[x]));
+ // alert(JSON.stringify(d));
+  
+  }else{
+//  alert(parDa[x]);
+  d[x]=parDa[x];
+  //alert(JSON.stringify(d));
+  }
+  });
+  
+ 
+   document.getElementById("out").textContent = JSON.stringify(d);
     ed = parDa;
     
     
   //  alert(JSON.stringify(d));
    // alert(JSON.stringify(ed));
     } catch (e) {
-    alert("Decryption failed. Check your password.");
+   // alert("Decryption failed. Check your password.");
+   alert(e);
     }
     };
     
