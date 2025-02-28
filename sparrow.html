@@ -95,6 +95,15 @@
     font-size: 18px;
     animation: blink 0.7s steps(2, start) infinite;
     }
+    #ranq,#ranq1,#rani,#rani1{
+    display:none;
+    }
+    .ranim{
+    border-radius:10px;
+    border:1px solid grey;
+    padding:0px;
+    margin:0px;
+    }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"> </script>
     <link rel="manifest" href="manifest.json" />
@@ -115,11 +124,17 @@
         <i alt="Profile" class="p-icon fa-solid fa-user" onclick="openP()"></i>
     </div>
 
-    <div class="box" id="box"></div>
+    <div class="box" id="box">
+    
+    
+    </div>
     
     
     <div class="inp-box">
     <i onclick="webC(this)"  class="fa-solid fa-earth b"></i><font style="color:transparent;">h</font>
+    <i onclick="randQu('t')" id="ranq" class="fa-solid fa-quote-left"></i><font id="ranq1" style="color:transparent;">h</font>
+    <i onclick="randimg('tm')" id="rani" class="fa-solid fa-image"></i><font id="rani1" style="color:transparent;">h</font>
+    
         <textarea name="brow" list="brow" oninput="showSug()" id="inp" type="text" placeholder="Ask..."></textarea>
         <i style="" class="fas fa-paper-plane" onclick="send()"></i>
         <div id="sug-box" class="sug-box"></div>
@@ -398,8 +413,16 @@ return `<b style="color:#4e9a06;"> ${key}</b> : ${obs[key]}<br>`.replace(/-/g," 
         ,1000);
         }else if(txt.trim().toLowerCase()=="qt"){
          setTimeout( ()=>{
-         randQu().then(da=>addMsg(da,"b-msg"))}
+         randQu("h").then(da=>addMsg(da,"b-msg"))}
               ,700);
+         }else if(txt.trim().toLowerCase()=="nkn"){
+         setTimeout( ()=>{
+         document.getElementById("ranq").style.display="block";document.getElementById("ranq1").style.display="block";document.getElementById("rani").style.display="block";document.getElementById("rani1").style.display="block";addMsg("Random Quotes & Images Features Enabmed Successfully.","b-msg");
+         },100);
+        }else if(txt.trim().toLowerCase()=="img"){
+        setTimeout( ()=>{
+        randimg("h")}
+        ,700);
         }
         else if(maTH(txt)){
         setTimeout(() => addMsg(eval(txt).toString(), "b-msg"), 1500);
@@ -479,7 +502,7 @@ return `<b style="color:#4e9a06;"> ${key}</b> : ${obs[key]}<br>`.replace(/-/g," 
     }
 
     function openP() { document.getElementById("p-modal").style.display = "flex";tysv.style.display="none";}
-    function closeP() { document.getElementById("p-modal").style.display = "none"; tysv.style.display="none";if(document.getElementById("box").children.length>0){tysv.style.display="none" }else{tysv.style.display="block"}}
+    function closeP() { tysv.style.display="none";document.getElementById("p-modal").style.display = "none"; tysv.style.display="none";if(document.getElementById("box").children.length>0){tysv.style.display="none" }else{tysv.style.display="block"}}
     
     
     function cpyto(phd){
@@ -637,10 +660,16 @@ return `<b style="color:#4e9a06;"> ${key}</b> : ${obs[key]}<br>`.replace(/-/g," 
     }
     
    
-    async function randQu() {
+    async function randQu(tx) {
+    closeP();
     try {
     let res = await fetch("https://quotes-api-self.vercel.app/quote");
     let dat = await res.json();
+    
+    if(tx==="t"){
+    addMsg("qt","u-msg");
+     setTimeout(()=>addMsg(dat["quote"],"b-msg"),1500);
+     }
     return dat["quote"].toString();
     } catch (e) {
     return "quote not found";
@@ -648,7 +677,23 @@ return `<b style="color:#4e9a06;"> ${key}</b> : ${obs[key]}<br>`.replace(/-/g," 
     }
     
     
+   function randimg(tz) {
+   closeP();
+   tysv.style.display="none";
+   if(tz=="tm"){ addMsg("img","u-msg")};
+   let box = document.getElementById("box");
+   if (!box) return;
    
+   let img = document.createElement("img");
+   img.src = `https://picsum.photos/2000/2000?rand=${Date.now()}`;
+   img.alt = "Random Image";
+   img.style.maxWidth = "100%";
+   img.className="msg b-msg ranim";
+   
+   box.prepend(img);
+   }
+   
+  
     
  
     
