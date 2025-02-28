@@ -64,6 +64,7 @@
         .pr{
         display:flex;
         width:100%;
+        height:40%;
         gap:10px;
         
         }
@@ -118,7 +119,31 @@
         color:white;
         }
         
+        .sele input{
+        border:1px solid black;
+        border-bottom:1px solid grey;
         
+        }
+        .sele input:hover{
+        border-bottom:1px solid black;
+        }
+        
+        .sug-box {padding:0px; font-family: monospace; width:90%; background:#B76E79; border: 1px solid black; max-height: 150px; overflow-y: auto; display: none; z-index: 10; border-radius:5px;}
+        .sug-item { padding: 8px; cursor: pointer; color:black; }
+        .sug-item:hover { background: grey; }
+        
+        #selcat{
+        background-color:#6A1B9A;
+        border:1px solid grey;
+        }
+        .sele input:first-child{
+        background-color:#4682B4;
+        border:1px solid grey;
+        }
+        h2{
+        margin:0px;
+        padding:0px;
+        }
     </style>
     <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
@@ -165,7 +190,7 @@
     
     <input style="display:none;" autocomplete="off" id="p1" placeholder="Enter Sky Password.." >
     <input style="display:none;" autocomplete="off" id="p2" placeholder="Enter Breeze Password.."  >
-   
+   <center><div id="sug-box" class="sug-box"></div></center>
    <select id="selcat" onchange="chsel(this)">
       <option value=""> Select Category </option>ll
       <option value="aadhar-details"> Aadhar Card </option>
@@ -176,7 +201,7 @@
     
     <div style="display:none;" id="aadhar-details" class="sele aadhaar">
     
-    <input id="aadhaar-refer" placeholder="Aadhaar Refrence(e.g. my aadhaar)">
+    <input oninput="showSug(this)" id="aadhaar-refer" placeholder="Aadhaar Refrence(e.g. my aadhaar)">
     <input id="aadhaar-name" placeholder="Name">
     <input id="aadhaar-number" placeholder="Number">
     <input id="aadhaar-dob" placeholder="Dob">
@@ -190,7 +215,7 @@
     
     <div style="display:none;" id="pancard-details" class="sele pancard">
     
-    <input id="pancard-refer" placeholder="PAN Card Reference (e.g. my PAN card)">
+    <input oninput="showSug(this)" id="pancard-refer" placeholder="PAN Card Reference (e.g. my PAN card)">
     <input id="pancard-name" placeholder="Name">
     <input id="pancard-number" placeholder="Number">
     <input id="pancard-dob" placeholder="DOB">
@@ -204,7 +229,7 @@
     
     <div style="display:none;" id="single-data-details" class="sele pancard">
     
-    <input id="single-data-refer" placeholder="Data Reference (e.g. IMEI NUMNER)">
+    <input id="single-data-refer" oninput="showSug(this)" placeholder="Data Reference (e.g. IMEI NUMNER)">
     <input id="single-data-value" placeholder="Data (e.g. 38283828338)">
  
     <button onclick="upd('single-data-details')"> Save Data </button>
@@ -222,6 +247,9 @@
 
 <a href="slogin.html" > Click Here to login into Sparrow </a>
     <script>
+    
+    
+    
     
     
     function chsel(x){
@@ -312,7 +340,7 @@
     
     
     }
-    checkDB();
+   checkDB();
     
     
     
@@ -348,7 +376,7 @@
     }
     temd[chi.id.trim().replace(/ /g,"-").toString()]=chi.value.trim().replace(/ /g,"-").toString();
     temd1[chi.id.trim().replace(/ /g,"-")]= CryptoJS.AES.encrypt(chi.value.trim().replace(/ /g,"-").toString(),skyp).toString();
-    
+    chi.value="";
     }
     
     let refs=getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString();
@@ -371,7 +399,7 @@
     
     
     function down() {
-    let v2 = document.getElementById("p2").value.trim();
+    let v2 = "B" || document.getElementById("p2").value.trim();
     if (v2 === "") {
     alert("Key required for encryption.");
     return;
@@ -400,7 +428,7 @@
     reader.onload = function (event) {
     let encPDA = event.target.result;
     let v2 = document.getElementById("p2").value.trim();
-    
+   let v1= document.getElementById("p1").value.trim();
     if (v2 === "") {
     alert("Please Upload the pass file or enter Sky,Breeze Password in input Boxes...");
     document.getElementById("uppf1").style.backgroundColor="red";
@@ -411,6 +439,7 @@
     
     try {
     let decPDA = CryptoJS.AES.decrypt(encPDA, v2).toString(CryptoJS.enc.Utf8);
+    //alert(decPDA);
     let parDa = JSON.parse(decPDA);
     
     document.getElementById("out2").textContent = JSON.stringify(parDa, null, 2);
@@ -426,7 +455,7 @@
     return m[key]=allG(obs[key]);
     }else{
    // alert(m[key]);
-    return m[key]=CryptoJS.AES.decrypt(obs[key],"S").toString(CryptoJS.enc.Utf8);
+    return m[key]=CryptoJS.AES.decrypt(obs[key],v1).toString(CryptoJS.enc.Utf8);
     }
     })
     .filter(Boolean)
@@ -434,23 +463,28 @@
     }
     
     
-    
+  let temp={};
   Object.keys(parDa).forEach((x)=>{
+  
   if(typeof(parDa[x])==="object"){
+  temp[x]={};
+  Object.keys(parDa[x]).forEach((vx)=>{
   
-  d[x]=allG(parDa[x]);
-//  alert(JSON.stringify(parDa[x]));
- // alert(JSON.stringify(d));
-  
-  }else{
-//  alert(parDa[x]);
-  d[x]=parDa[x];
-  //alert(JSON.stringify(d));
-  }
+  temp[x][vx]=CryptoJS.AES.decrypt(parDa[x][vx], v1).toString(CryptoJS.enc.Utf8);
+//  alert(JSON.stringify(temp));
   });
-  
  
-   document.getElementById("out").textContent = JSON.stringify(d);
+  }else{
+  
+  temp[x]=CryptoJS.AES.decrypt(parDa[x],v1).toString(CryptoJS.enc.Utf8);
+ // alert(JSON.stringify(temp));
+  }
+  
+  
+  });
+  d=temp;
+ //alert(JSON.stringify(d));
+   document.getElementById("out").textContent = JSON.stringify(d,null,2);
     ed = parDa;
     
     
@@ -512,6 +546,38 @@
     
     reader.readAsText(file);
     }
+    
+    
+    
+    function showSug(v) {
+    
+    
+    let val = v.value.toLowerCase();
+    let sugBox = document.getElementById("sug-box");
+    sugBox.innerHTML = "";
+    
+    if (!val) { 
+    sugBox.style.display = "none"; 
+    return; 
+    }
+    
+    Object.keys(ed).forEach(key => {
+    if (key.toLowerCase().includes(val)) {
+    let div = document.createElement("div");
+    div.className = "sug-item";
+    div.innerText = key;
+    div.onclick = () => { 
+    document.getElementById(v.id).value = key; 
+    sugBox.style.display = "none"; 
+    };
+    sugBox.appendChild(div);
+    }
+    });
+    
+    sugBox.style.display = sugBox.children.length ? "block" : "none";
+    }
+    
+    
     </script>
 
 </body>
