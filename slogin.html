@@ -11,29 +11,47 @@
     
     display:none;
     }
-    
+    *{
+    font-family:monospace;
+    }
     body{
+    background-color:black;
+    background-image:url('movback.svg');
+    background-attachment:fixed;
+    background-size:cover;
     display:flex;
     flex-direction:column;
     text-align:center;
     justify-content:center;
     align-items:center;
     width:100%;
-    background-color:black;
+    height:100%;
     color:white;
     margin:0px;
+    font-family:monosapce;
+    padding:0px;
     }
     input,button,select{
     height:6vh;
     width:60%;
     align-items:center;
-    border:1.5px solid grey;
+    border:0px solid grey;
+    border-bottom:1px solid grey;
     border-radius:7px;
     background-color:black;
     color:white;
     padding:5px;
     margin:5px;
     
+    }
+    input{
+    background-color:#183D3D;
+    }
+    button{
+    background-color:#4961E1;
+    }
+    select{
+    background-color:#6A1B9A;
     }
     input::placeholder{
     color:white;
@@ -51,20 +69,42 @@
     right:5;
     color:green;
     }
+    
+    img{
+    width:100%;
+    height:20%;
+    z-index:-1;
+    display:none;
+    opacity:0.5;
+    }
+    
+    .con{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    height:100%;
+    width:100%;
+    margin:0px;
+    padding:0px;
+    margin-top:20%;
+    
+    
+    }
     </style>
    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 </head>
 <body>
 <i style="display:none;" onclick="location.href='sdoc.html'" class="fa-solid fa-circle-info"></i>
-    <h2> login to sparrow 
-     </h2>
-
-    <input autocomplete="off" type="text" id="n" placeholder="Name"><br><br>
+   <img src="/storage/emulated/0/Download/kisspng-house-sparrow-a-bird-watcher-s-guide-to-sparrows-a-eat-5ae75eea367b94.6348423115251125542232.png">
+   <center>  </center>
+   <div class="con">
+    <h2> Login to Sparrw</h2>
+    <input style="display:none;" autocomplete="off" type="text" id="n" value="Sparrow" placeholder="Name">
     
     
     <select id="sel" onchange="inFy(this)">
-    <option value="urld"> Select File</option>
+    <option value="urld"> Import Files From</option>
     <option value="url"> Import From URL</option>
     <option value="file"> Import From File</option>
     </select>
@@ -80,14 +120,13 @@
     
   
     
-    <input autocomplete="off" type="text" id="p2" placeholder="breeze pass"><br><br>
-    <input autocomplete="off" type="number" id="pin" placeholder="Login Pin"><br><br>
-    <button onclick="save()">Save</button>
-
+    <input autocomplete="off" type="password" id="p2" placeholder="breeze pass"><br><br>
+    <input autocomplete="off" type="password" id="pin" placeholder="Login Pin"><br><br>
+    <button onclick="save()"> LogIn</button><br>
+    <a href="sb.html" > New to Sparrow? Click here to set up your data and password </a>
+    </div>
   <!--  <h3>Records</h3> -->
-  <br><br>
-  <a href="sb.html" > New to Sparrow? Click here to set up your data and password </a>
-    <ul id="list"></ul>
+  
 
     <script>
     delDab();
