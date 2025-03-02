@@ -105,7 +105,7 @@
         }
         
         select,.sele>input,.sele>button{
-        border:1px solid red;
+        border:1px solid grey;
         }
         #out{
         border:3px solid green;
@@ -122,27 +122,50 @@
         .sele input{
         border:1px solid black;
         border-bottom:1px solid grey;
-        
+        color:white;
+        }
+        .sele input::placeholder{
+        color:white;
         }
         .sele input:hover{
         border-bottom:1px solid black;
         }
         
-        .sug-box {padding:0px; font-family: monospace; width:90%; background:#B76E79; border: 1px solid black; max-height: 150px; overflow-y: auto; display: none; z-index: 10; border-radius:5px;}
-        .sug-item { padding: 8px; cursor: pointer; color:black; }
+        .sug-box {padding:0px; font-family: monospace; width:90%; background:#800000; border: 0px solid black;border-bottom:1px solid grey; max-height: 150px; overflow-y: auto; display: none; z-index: 10; border-radius:5px;}
+        .sug-item { padding: 8px; cursor: pointer; color:white; }
         .sug-item:hover { background: grey; }
         
         #selcat{
         background-color:#6A1B9A;
         border:1px solid grey;
         }
-        .sele input:first-child{
-        background-color:#4682B4;
-        border:1px solid grey;
+        .sele input:nth-child(2){
+        background-color:#183D3D;
+        border:0px solid grey;
+        border-bottom:1px solid grey;
+        }
+        .sele input:nth-child(2)::placeholder{
+        color:white;
         }
         h2{
         margin:0px;
         padding:0px;
+        }
+        
+        .btns{
+        width:99%;
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        marhin:5px;
+        }
+        .btns button,.btns select,i{
+        margin:2px;
+        width:auto;
+        }
+        .fa-download{
+        
+        font-size:1.4rem;
         }
     </style>
     <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
@@ -155,89 +178,138 @@
     <summary style="display:none;">sjjs</summary>
     <details>
     <summary>Step 1 : Upload Password File (if exists)</summary>
-    <p>Enter the <strong>Breeze password</strong> to read <strong>Sky & Breeze</strong> values and autofill input boxes.</p>
+    <p> Click On PassWD button and Enter the <strong>Breeze password</strong> to read <strong>Sky & Breeze</strong> values and autofill input boxes.</p>
     </details>
     
     <details>
     <summary>Step 2 : Upload Data File (if exists)</summary>
-    <p>Requires the <strong>password file first</strong>. Reads and displays <strong>encrypted & decrypted</strong> data.</p>
+    <p> Click On DataFile button and it Requires the <strong>password file first</strong>. it will Read and displays <strong>encrypted & decrypted</strong> data.</p>
     </details>
     
     <details>
     <summary>Step 3 : Create Files</summary>
-    <p>If no files exist, first create a <strong>password file in Black Sparrow</strong>, then a <strong>data file in White Sparrow</strong>.</p>
+    <p>If no files exist, first create a <strong>password file in Black Sparrow</strong>, then Choose or Create An Document Structure By Click On Select Docs Button.</p>
     </details>
     
     <details>
     <summary>Step 4 : Upload Data</summary>
-    <p>Enter <strong>key-value pairs</strong> (data reference & value). If a data file exists, it updates the data.</p>
+    <p>Enter <strong>key-value pairs</strong> (data reference & value). If a data refrences exists, it updates the data.</p>
     </details>
     
     <details>
     <summary>Step 5 : Download Data File</summary>
-    <p>Saves the encrypted data file using the <strong>Breeze password</strong>.</p>
+    <p> Click On Download icon to Download Consealed Data File With <strong>Breeze password</strong>.</p>
     </details>
     <p> Reload The Page If Any Unknkwn Problem Occured</p>
     <p class="warning"> If the Breeze password is forgotten, everything is lost.</p>
     <a href="sdoc.html" > Click Here Read Sparrow Documentation.</a>
     </details>
     
-    <button id="uppf"> Upload Pass File</button>
+    <div class="btns">
+    <button id="uppf"> PassWD</button>
     <input style="display:none;" type="file" id="fileInput1">
     
-    <button id="uppf1"> Upload Data File if it Exists</button>
+    <button id="uppf1"> DataFile</button>
     <input style="display:none;" type="file" id="fileInput">
     
-    <input style="display:none;" autocomplete="off" id="p1" placeholder="Enter Sky Password.." >
+    <input style="display:none;" autocomplete="off" id="p1" placeholder="Enter Sky Password.." value="S">
     <input style="display:none;" autocomplete="off" id="p2" placeholder="Enter Breeze Password.."  >
-   <center><div id="sug-box" class="sug-box"></div></center>
+   
    <select id="selcat" onchange="chsel(this)">
-      <option value=""> Select Category </option>ll
+      <option value=""> Select Docs</option>ll
+      <option value="single-data-details"> Sigle Data</option>
+      <option value="double-data-details"> Create format</option>
       <option value="aadhar-details"> Aadhar Card </option>
       <option value="pancard-details"> Pan Card</option>
-      <option value="single-data-details"> Single Data</option>
+      <option value="voter-id-details"> Voter Id Card </option>
       
    </select>
+   <i class="fa-solid fa-download" onclick="down()"></i>
+   
+    </div>
+    
+    <center><div id="sug-box" class="sug-box"></div></center>
+    
+    
+    
     
     <div style="display:none;" id="aadhar-details" class="sele aadhaar">
-    
-    <input oninput="showSug(this)" id="aadhaar-refer" placeholder="Aadhaar Refrence(e.g. my aadhaar)">
-    <input id="aadhaar-name" placeholder="Name">
+    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
+    <input oninput="showSug(this)" id="aadhaar-refer" placeholder="Aadhaar Refrence(e.g. my aadhaar)"> 
+    <input id="aadhaar-name" placeholder="Name">  
     <input id="aadhaar-number" placeholder="Number">
     <input id="aadhaar-dob" placeholder="Dob">
-    <input id="aadhaar-gender" placeholder="gender">
-    <input id="aadhaar-address" placeholder="address">
-    <input id="aadhaar-linked-phnumber" placeholder="linked phone number">
+    <input id="aadhaar-gender" placeholder="gender"> 
+    <input id="aadhaar-address" placeholder="address"> 
+    <input id="aadhaar-linked-phnumber" placeholder="linked phone number"> 
     <input id="aadhaar-enrollment-number" placeholder="enrollment number">
-    
-    <button onclick="upd('aadhar-details')"> Save Data </button>
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('aadhar-details')"> Save Data </button>
     </div>
     
     <div style="display:none;" id="pancard-details" class="sele pancard">
-    
-    <input oninput="showSug(this)" id="pancard-refer" placeholder="PAN Card Reference (e.g. my PAN card)">
-    <input id="pancard-name" placeholder="Name">
-    <input id="pancard-number" placeholder="Number">
-    <input id="pancard-dob" placeholder="DOB">
-    <input id="pancard-gender" placeholder="Gender">
-    <input id="pancard-address" placeholder="Address">
-    <input id="pancard-linked-phnumber" placeholder="Linked Phone Number">
-    <input id="pancard-enrollment-number" placeholder="Enrollment Number">
-    
-    <button onclick="upd('pancard-details')"> Save Data </button>
+    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
+    <input oninput="showSug(this)" id="pancard-refer" placeholder="PAN Card Reference (e.g. my PAN card)"> 
+    <input id="pan-name" placeholder="Name"> 
+    <input id="pan-father-name" placeholder="Father Name"> 
+    <input id="pan-number" placeholder="Number"> 
+    <input id="pan-dob" placeholder="DOB"> 
+    <input id="pan-gender" placeholder="Gender"> 
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('pancard-details')"> Save Data </button>
     </div>
     
-    <div style="display:none;" id="single-data-details" class="sele pancard">
+    <div style="display:none;" id="voter-id-details" class="sele voterID">
+       <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
+       <input oninput="showSug(this)" id="voter-id-refer" placeholder="Voter ID Card(e.g. my Vote card)"> 
+       <input id="voterID-name" placeholder="Name ( enter both lang )">  
+       <input id="voterID-other" placeholder="Other Name">  
+       <input id="voterID-number" placeholder="Number">  
+       <input id="voterID-dob" placeholder="DOB"> 
+       <input id="voterID-gender" placeholder="Gender">  
+       <input id="voterID-address" placeholder="Address"> 
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('voter-id-details')"> Save Data </button>
+    </div>
     
-    <input id="single-data-refer" oninput="showSug(this)" placeholder="Data Reference (e.g. IMEI NUMNER)">
-    <input id="single-data-value" placeholder="Data (e.g. 38283828338)">
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+    
+    <div style="display:none;" id="double-data-details" class="sele double">
+    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
+    <input id="double-data-refer" oninput="showSug(this)" placeholder="head Reference (e.g. device)">
+    <input id="device-name" ondblclick="remC(this)" placeholder="Device Name"> 
+    <input id="device-imei-number" ondblclick="remC(this)" placeholder="Device IMEI Number"> 
+    
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('double-data-details')"> Save Data </button>
+    </div>
+    
+    
+    
+    
+    
+    
+    <div style="display:none;" id="single-data-details" class="sele single">
+    
+    <input id="single-data-refer" style="background-color:#184D4D;" oninput="showSug(this)" placeholder="Data Reference (e.g. IMEI NUMNER)">
+    <input id="single-data-value" style="background-color:black;border:0px solid black;border-bottom:1px solid grey;" placeholder="Data (e.g. 38283828338)">
  
-    <button onclick="upd('single-data-details')"> Save Data </button>
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('single-data-details')"> Save Data </button>
     </div>
     
     
     <button style="display:none;" onclick="upd()">Upload</button>
-    <button onclick="down()">Download</button>
     
     
     <div class="pr">
@@ -248,9 +320,23 @@
 <a href="slogin.html" > Click Here to login into Sparrow </a>
     <script>
     
+    function remC(x){
+    x.remove();
+    }
     
+    function addCh(xx){
+    let chil=xx.parentElement;
+    let clen=chil.children.length;
+    let newC=document.createElement("input");
+    let idin=prompt("Enter Name Of Feild(.e.g. imei number) : ").toString().trim().replace(/ /g,"-");
+    newC.id=idin;
+    newC.style.backgroundColor="#2C2F33";
+    newC.style.color="white";
+    newC.placeholder=idin;
+    newC.ondblclick=()=>remC(newC);
+    chil.insertBefore(newC,chil.children[clen-1]);
     
-    
+    }
     
     function chsel(x){
     
@@ -340,7 +426,7 @@
     
     
     }
-   checkDB();
+  checkDB();
     
     
     
@@ -362,29 +448,30 @@
     
     d[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=getEl.children[1].value.trim().replace(/ /g,"-");
     ed[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=CryptoJS.AES.encrypt(getEl.children[1].value.trim().replace(/ /g,"-").toString(),skyp).toString();
-    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
-    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2).replace(/[:{}"]/g," ");
+    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2).replace(/[:{}"]/g," ");
     
     
     }else{
-    for(let x=1;x<chilen-1;x++){
+    for(let x=2;x<chilen-1;x++){
     
     let chi=getEl.children[x];
-    if(chi.value==="" || chi.value===null || getEl.children[0].value===""){
+    if(chi.value==="" || chi.value===" "){
     alert("please enter all feild");
     return
     }
+    
     temd[chi.id.trim().replace(/ /g,"-").toString()]=chi.value.trim().replace(/ /g,"-").toString();
     temd1[chi.id.trim().replace(/ /g,"-")]= CryptoJS.AES.encrypt(chi.value.trim().replace(/ /g,"-").toString(),skyp).toString();
-    chi.value="";
+   chi.value="";
     }
     
-    let refs=getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString();
+    let refs=getEl.children[1].value.trim().replace(/ /g,"-").toLowerCase().toString();
     d[refs.toString()]=temd;
     ed[refs.toString()]=temd1;
     
-    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
-    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2).replace(/[:{}"]/g," ");
+    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2).replace(/[:{}"]/g," ");
     
     
  }
@@ -399,7 +486,7 @@
     
     
     function down() {
-    let v2 = "B" || document.getElementById("p2").value.trim();
+    let v2 = document.getElementById("p2").value.trim();
     if (v2 === "") {
     alert("Key required for encryption.");
     return;
@@ -430,7 +517,7 @@
     let v2 = document.getElementById("p2").value.trim();
    let v1= document.getElementById("p1").value.trim();
     if (v2 === "") {
-    alert("Please Upload the pass file or enter Sky,Breeze Password in input Boxes...");
+    alert("Please Upload the pass file first...");
     document.getElementById("uppf1").style.backgroundColor="red";
     document.getElementById("uppf1").style.border="2px solid black";
     
@@ -562,12 +649,34 @@
     }
     
     Object.keys(ed).forEach(key => {
+   // alert(d[key]);
     if (key.toLowerCase().includes(val)) {
     let div = document.createElement("div");
     div.className = "sug-item";
     div.innerText = key;
+    div.style.height="20px";
     div.onclick = () => { 
-    document.getElementById(v.id).value = key; 
+    document.getElementById(v.id).value = key;
+    let ch=v.parentElement.children;
+     let chl=v.parentElement.children.length;
+    
+     if(typeof(d[key])==="object"){
+     let xc=2;
+     Object.keys(d[key]).forEach((c)=>{
+     
+     
+     ch[xc].value=d[key][c];
+     xc+=1;
+     
+     
+     });
+     
+     
+     }else if(chl==3){
+     ch[1].value=d[key];
+     }
+    
+    
     sugBox.style.display = "none"; 
     };
     sugBox.appendChild(div);
