@@ -5,6 +5,7 @@
     <title>Sparrow-Login</title>
     <link rel="manifest" href="manifest.json" />
     <link rel="icon" type="image/x-icon" href="icon512_maskable.png">
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <style type="text/css">
     
     #u1,#u2,#fi1,#fi2{
@@ -82,17 +83,19 @@
     display:flex;
     flex-direction:column;
     align-items:center;
+    justify-content:center;
     height:100%;
     width:100%;
     margin:0px;
     padding:0px;
-    margin-top:20%;
+    margin-top:0%;
     
     
     }
     </style>
    <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
 <body>
 <i style="display:none;" onclick="location.href='sdoc.html'" class="fa-solid fa-circle-info"></i>
@@ -130,6 +133,22 @@
 
     <script>
     delDab();
+    
+    function toast(ms,du=4000,bg,cl) {
+    let config = {
+    text:ms,
+    duration: du,
+    close: cl,
+    gravity: "top",
+    position: "center",
+    stopOnFocus: true,
+    backgroundColor:bg,
+    className: "custom-toast",
+    };
+    
+    Toastify(config).showToast();
+    }
+    
         let db, dbn = "SPRROWGEN", stn = "bird";
         
         let iname=document.getElementById("n");
@@ -154,7 +173,8 @@
        
         requs.onsuccess = function () {
         // alert("logout successfully");
-        alert("The previous data files were deleted successfully.");
+        setTimeout(()=>toast("The Sparrow's twigs are lost.",4000,"green",false),1500);
+        
         
         };
         
@@ -201,13 +221,16 @@
         
         let t = db.transaction(stn, "readwrite").objectStore(stn).add(data);
         t.onsuccess = () => {
-        alert("New Files Are Stored PERFECTLY...");
+       // alert("New Files Are Stored PERFECTLY...");
+        
+        toast("The Sparrow's nest is created.",4000,"green",false);
         // load();
-        location.href="sparrow.html";
+        
+        setTimeout(()=>location.href="sparrow.html",1500);
         };
         
         }else{
-        alert("Condition Not Satisfied");
+        toast("Condition Not Satisfied",2000,"red",false);
         
         }
         
@@ -247,7 +270,8 @@
         if1.addEventListener("change", (e) => {
         let r = new FileReader();
         r.onload = (d) => {idaDF=d.target.result;
-        alert("Data File Imported successfully");
+        toast("Sparrow read and stored the data File",3000,"green",false);
+        
         document.getElementById("updf").style.backgroundColor="green";
         };
         r.readAsText(e.target.files[0]);
@@ -257,7 +281,7 @@
         if2.addEventListener("change", (e) => {
         let r1 = new FileReader();
         r1.onload = (d1) =>{ ipaDF=d1.target.result;
-             alert("Passwird File Imported successfully");
+             toast("Sparrow read & stored the password file.",3000,"green",false);
              document.getElementById("uppf").style.backgroundColor="green";
         };
         r1.readAsText(e.target.files[0]);

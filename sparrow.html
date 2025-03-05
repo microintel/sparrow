@@ -3,6 +3,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>sparrow</title>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
     <style type="text/css">
     
     * { margin: 0; padding: 0; box-sizing: border-box; font-family: monospace; color:#4e9a06;}
@@ -160,6 +163,22 @@
     </center>
 </div>
 <script>
+
+function toast(ms,du=4000,bg,cl) {
+    let config = {
+    text:ms,
+    duration: du,
+    close: cl,
+    gravity: "top",
+    position: "center",
+    stopOnFocus: true,
+    backgroundColor:bg,
+    className: "custom-toast",
+    };
+    
+    Toastify(config).showToast();
+    }
+
 let pData={
   "aadhar":{
     "aadhaar-name": "Dani",
@@ -198,11 +217,11 @@ jura.pause();
 function delDab(){
 
 let requs = indexedDB.deleteDatabase("SPRROWGEN");
-alert("logout scccessfully");
-location.href="slogin.html";
+toast("logout scccessfully",3000,"green",false);
+setTimeout(()=>location.href="slogin.html",1000);
 requs.onsuccess = function () {
    // alert("logout successfully");
-    location.href="slogin.html";
+    setTimeout(()=>location.href="slogin.html",1000);;
     
 };
 
@@ -300,7 +319,7 @@ async function checkDB() {
 
   
 }
-    checkDB();
+   checkDB();
 
 
 
@@ -507,7 +526,7 @@ return `<b style="color:#4e9a06;"> ${key}</b> : ${obs[key]}<br>`.replace(/-/g," 
     
     function cpyto(phd){
     navigator.clipboard.writeText(phd);
-    alert("Copied...");
+    toast("Meassage Copied...",2000,"green",false);
     }
     
     function showSug() {

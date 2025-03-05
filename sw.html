@@ -6,6 +6,9 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="icon" type="image/x-icon" href="icon512_maskable.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    
     <style>
         body {
             background: #000;
@@ -367,7 +370,20 @@
     upload();
     });
     
+    function toast(ms,du=4000,bg,cl) {
+    let config = {
+    text:ms,
+    duration: du,
+    close: cl,
+    gravity: "top",
+    position: "center",
+    stopOnFocus: true,
+    backgroundColor:bg,
+    className: "custom-toast",
+    };
     
+    Toastify(config).showToast();
+    }
     
     
     let d = {};
@@ -451,8 +467,8 @@
     
     d[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=getEl.children[1].value.trim().replace(/ /g,"-");
     ed[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=CryptoJS.AES.encrypt(getEl.children[1].value.trim().replace(/ /g,"-").toString(),skyp).toString();
-    document.getElementById("out").textContent = JSON.stringify(d, null, 2).replace(/[:{}"]/g," ");
-    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2).replace(/[:{}"]/g," ");
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
     
     
     }else{
@@ -460,7 +476,7 @@
     
     let chi=getEl.children[x];
     if(chi.value==="" || chi.value===" "){
-    alert("please enter all feild");
+    toast("please enter all feild",3000,"red",false);
     return
     }
     
@@ -473,8 +489,8 @@
     d[refs.toString()]=temd;
     ed[refs.toString()]=temd1;
     
-    document.getElementById("out").textContent = JSON.stringify(d, null, 2).replace(/[:{}"]/g," ");
-    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2).replace(/[:{}"]/g," ");
+    document.getElementById("out").textContent = JSON.stringify(d, null, 2);
+    document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
     
     
  }
@@ -491,7 +507,7 @@
     function down() {
     let v2 = document.getElementById("p2").value.trim();
     if (v2 === "") {
-    alert("Key required for encryption.");
+    toast("Key required for encryption.",3000,"red",false);
     return;
     }
     
@@ -510,7 +526,7 @@
     let file = fileInput.files[0];
     
     if (!file) {
-    alert("Please select a file first!");
+    toast("Please select a file first!",3000,"red",false);
     return;
     }
     
@@ -520,7 +536,7 @@
     let v2 = document.getElementById("p2").value.trim();
    let v1= document.getElementById("p1").value.trim();
     if (v2 === "") {
-    alert("Please Upload the pass file first...");
+    toast("Please Upload the pass file first...",3000,"red",false);
     document.getElementById("uppf1").style.backgroundColor="red";
     document.getElementById("uppf1").style.border="2px solid black";
     
@@ -582,7 +598,7 @@
    // alert(JSON.stringify(ed));
     } catch (e) {
    // alert("Decryption failed. Check your password.");
-   alert(e);
+   toast(e,2000,"red",false);
     }
     };
     
@@ -595,7 +611,7 @@
     let file = fileInput.files[0];
     
     if (!file) {
-    alert("Please select a file first!");
+    toast("Please select a file first!",3000,"red",false);
     return;
     }
     
@@ -605,7 +621,7 @@
     let v2 = prompt("Enter Breeze Password To Read Pass File..");
     
     if (v2 === "") {
-    alert("Breeze Password Required For Reading File...");
+    toast("Breeze Password Required For Reading File...",3000,"red",false);
     return;
     }
     
@@ -615,7 +631,7 @@
     
     document.getElementById("p1").value=parDa["sky"];
     document.getElementById("p2").value=parDa["breez"];
-    alert("Pass File Read successfully...");
+    toast("Pass File Read successfully...",3000,"green",false);
     document.getElementById("uppf").style.backgroundColor="green";
     document.getElementById("uppf").style.border="2px solid black";
    // document.getElementById("out2").textContent = JSON.stringify(parDa, null, 2);
@@ -628,7 +644,7 @@
   //  document.getElementById("out").textContent = JSON.stringify(d, null, 2);
   // ed = parDa;
      catch (e) {
-    alert("File Reading Failed, Due to Incorrect Password.");
+    toast("File Reading Failed, Due to Incorrect Password.",3000,"red",false);
     document.getElementById("uppf").style.backgroundColor="red";
     document.getElementById("uppf").style.border="2px solid black";
     }

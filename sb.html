@@ -6,6 +6,8 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="icon" type="image/x-icon" href="icon512_maskable.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
     <style>
         body {
             background: #000;
@@ -198,7 +200,20 @@
     upload();
     });
     
+    function toast(ms,du=4000,bg,cl) {
+    let config = {
+    text:ms,
+    duration: du,
+    close: cl,
+    gravity: "top",
+    position: "center",
+    stopOnFocus: true,
+    backgroundColor:bg,
+    className: "custom-toast",
+    };
     
+    Toastify(config).showToast();
+    }
     
         let d = {};
         let bre = document.getElementById("v2").value.trim();
@@ -213,7 +228,7 @@
                 document.getElementById("out").textContent = JSON.stringify(d, null, 2);
             }
             else{
-            alert("please enter all feild");
+            toast("please enter all feild",3000,"red",false);
             }
         }
 
@@ -247,7 +262,7 @@
             let file = fileInput.files[0];
 
             if (!file) {
-                alert("Please select a file first!");
+                toast("Please select a file first!",3000,"red",false);
                 return;
             }
 
@@ -257,7 +272,7 @@
                 let passwd = prompt("Enter the Breez passwd to Read File :");
 
                 if (!passwd) {
-                    alert("Read canceled.");
+                    toast("Read canceled due to incorrect Password",2500,"red",false);
                     document.getElementById("uppf").style.backgroundColor="red";
                     document.getElementById("uppf").style.border="2px solid black";
                     return;
@@ -268,12 +283,12 @@
                     let parcnd = JSON.parse(decnD);
                     document.getElementById("out").textContent = JSON.stringify(parcnd, null, 2);
                     d = parcnd;
-                    alert("File Read Successfully...");
+                    toast("File Read Successfully...",3000,"green",false);
                     document.getElementById("uppf").style.backgroundColor="green";
                     document.getElementById("uppf").style.border="2px solid black";
                 } catch (e) {
-                    alert("File Read failed! Incorrect passwd or corrupted file.");
-                    alert("please reload this page to proceed without problems");
+                    toast("File Read failed! Incorrect passwd or corrupted file.",3000,"red",false);
+                    toast("please reload this page to proceed without problems",2000,"skyblue",false);
                     document.getElementById("uppf").style.backgroundColor="red";
                     document.getElementById("uppf").style.border="2px solid black";
                 }
