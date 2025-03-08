@@ -90,7 +90,7 @@ The **Breeze password** and **encrypted file** must be stored securely. Losing t
 ### Recommended Backup Options:  
 - Store on a USB drive.  
 - Save in cloud storage.  
-- Host securely on platforms like GitHub ([Read More](gitdoc.html)), Vercel, etc.  
+- Host securely on platforms like GitHub ([Read More](https://microintel.github.io/sparrow/sdoc.html)), Vercel, etc.  
 - Send a backup via private messaging.  
 
 If the Breeze password is lost, all data is permanently inaccessible.  
