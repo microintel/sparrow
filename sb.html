@@ -215,6 +215,8 @@
     Toastify(config).showToast();
     }
     
+    
+    
         let d = {};
         let bre = document.getElementById("v2").value.trim();
         function upd() {
@@ -248,7 +250,7 @@
             alert(x+"\n\n"+"breeze Passwd : "+d.breez);
             });
 
-            let enc = CryptoJS.AES.encrypt(JSON.stringify(d), d.breez).toString();
+            let enc = encrpt(JSON.stringify(d), d.breez).toString();
             let blob = new Blob([enc], { type: "application/json" });
             let a = document.createElement("a");
             a.href = URL.createObjectURL(blob);
@@ -279,7 +281,7 @@
                 }
 
                 try {
-                    let decnD = CryptoJS.AES.decrypt(enPDA, passwd).toString(CryptoJS.enc.Utf8);
+                    let decnD = decrpt(enPDA, passwd).toString(CryptoJS.enc.Utf8);
                     let parcnd = JSON.parse(decnD);
                     document.getElementById("out").textContent = JSON.stringify(parcnd, null, 2);
                     d = parcnd;
@@ -296,6 +298,38 @@
 
             reader.readAsText(file);
         }
+        
+        
+        function encrpt(t,p) {
+        let text=t;
+        let pass=p;
+        if (!text || !pass) {return "Please enter both text and password."}
+        let salt = CryptoJS.lib.WordArray.random(16);
+        let iv = CryptoJS.lib.WordArray.random(16);
+        let key = CryptoJS.PBKDF2(pass, salt, { keySize: 256 / 32, iterations: 1000 });
+        let en = CryptoJS.AES.encrypt(text, key, { iv: iv, mode: CryptoJS.mode.CBC });
+        let resu = CryptoJS.enc.Base64.stringify(salt.concat(iv).concat(en.ciphertext));
+        
+        return resu;
+        }
+        
+        function decrpt(t,p) {
+        let encry = t;
+        let password = p;
+        if (!encry || !password) { return "Please enter both encrypted text and password." }
+        
+        let rawData = CryptoJS.enc.Base64.parse(encry);
+        let salt = CryptoJS.lib.WordArray.create(rawData.words.slice(0, 4)); 
+        let iv = CryptoJS.lib.WordArray.create(rawData.words.slice(4, 8)); 
+        let cipher = CryptoJS.lib.WordArray.create(rawData.words.slice(8)); 
+        let key = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations: 1000 });
+        let decry = CryptoJS.AES.decrypt({ ciphertext: cipher }, key, { iv: iv, mode: CryptoJS.mode.CBC });
+        let ori = decry.toString(CryptoJS.enc.Utf8);
+        return ori;
+        
+        }
+        
+        
     </script>
 
 </body>

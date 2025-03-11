@@ -178,6 +178,35 @@ function toast(ms,du=4000,bg,cl) {
     
     Toastify(config).showToast();
     }
+    
+    function encrpt(t,p) {
+    let text=t;
+    let pass=p;
+    if (!text || !pass) {return "Please enter both text and password."}
+    let salt = CryptoJS.lib.WordArray.random(16);
+    let iv = CryptoJS.lib.WordArray.random(16);
+    let key = CryptoJS.PBKDF2(pass, salt, { keySize: 256 / 32, iterations: 1000 });
+    let en = CryptoJS.AES.encrypt(text, key, { iv: iv, mode: CryptoJS.mode.CBC });
+    let resu = CryptoJS.enc.Base64.stringify(salt.concat(iv).concat(en.ciphertext));
+    
+    return resu;
+    }
+    
+    function decrpt(t,p) {
+    let encry = t;
+    let password = p;
+    if (!encry || !password) { return "Please enter both encrypted text and password." }
+    
+    let rawData = CryptoJS.enc.Base64.parse(encry);
+    let salt = CryptoJS.lib.WordArray.create(rawData.words.slice(0, 4)); 
+    let iv = CryptoJS.lib.WordArray.create(rawData.words.slice(4, 8)); 
+    let cipher = CryptoJS.lib.WordArray.create(rawData.words.slice(8)); 
+    let key = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations: 1000 });
+    let decry = CryptoJS.AES.decrypt({ ciphertext: cipher }, key, { iv: iv, mode: CryptoJS.mode.CBC });
+    let ori = decry.toString(CryptoJS.enc.Utf8);
+    return ori;
+    
+    }
 
 let pData={
   "aadhar":{
@@ -250,10 +279,10 @@ try{
             let filP=getAR.result[0].filePass; //1234
             let filD=getAR.result[0].dataUrl;//data
             let filPF=getAR.result[0].passUrl;//pass
-            let filDDP=CryptoJS.AES.decrypt(filP,pinPro.toString()).toString(CryptoJS.enc.Utf8);
+            let filDDP=decrpt(filP,pinPro.toString()).toString(CryptoJS.enc.Utf8);
             
            // alert(filDDP);//nkn
-           let filPPD=CryptoJS.AES.decrypt(filPF,filDDP.toString()).toString(CryptoJS.enc.Utf8);
+           let filPPD=decrpt(filPF,filDDP.toString()).toString(CryptoJS.enc.Utf8);
          //  alert(filPPD);
             //filPPD["sky"].toString();
             let filPX=JSON.parse(filPPD);
@@ -261,7 +290,7 @@ try{
            document.getElementById("usn").innerText= "User Name  : "+filPX["name"];
            document.getElementById("spd").innerText= "Sky PassWd : "+filPX["sky"] ;
            document.getElementById("bpd").innerText= "Breeze PassWd : "+filPX["breez"];
-            let filDFD =CryptoJS.AES.decrypt(filD,filDDP).toString(CryptoJS.enc.Utf8);
+            let filDFD =decrpt(filD,filDDP).toString(CryptoJS.enc.Utf8);
            // alert(typeof(filDFD));
            
             let pData1=JSON.parse(filDFD);
@@ -274,12 +303,12 @@ try{
            if(typeof(pData1[mx])==="object"){
            
            Object.keys(pData1[mx]).forEach((x)=>{
-           pData1[mx][x]=CryptoJS.AES.decrypt(pData1[mx][x].toString(),filPX["sky"]).toString(CryptoJS.enc.Utf8);
+           pData1[mx][x]=decrpt(pData1[mx][x].toString(),filPX["sky"]).toString(CryptoJS.enc.Utf8);
            });
            
            }else{
            
-            pData1[mx]=CryptoJS.AES.decrypt(pData1[mx].toString(),filPX["sky"]).toString(CryptoJS.enc.Utf8);
+            pData1[mx]=decrpt(pData1[mx].toString(),filPX["sky"]).toString(CryptoJS.enc.Utf8);
             }
            // alert(pData[mx]);
             });
@@ -319,7 +348,7 @@ async function checkDB() {
 
   
 }
-   checkDB();
+  checkDB();
 
 
 
@@ -425,7 +454,7 @@ return `<b style="color:#4e9a06;"> ${key}</b> : ${obs[key]}<br>`.replace(/-/g," 
         if (!txt) return;
         
         addMsg(txt, "u-msg");
-        setTimeout(()=>addMsg("<b style='color:red;'>The sparrow has built its nest; now, it is searching for its better half.</b>","b-msg"),1500);
+     //   setTimeout(()=>addMsg("<b style='color:red;'>The sparrow has built its nest; now, it is searching for its better half.</b>","b-msg"),1500);
         if(webE[0].className=="fa-solid fa-earth w" && !maTH(txt)){
         setTimeout( ()=>{
         diwi(txt).then(da=>addMsg(da,"b-msg"))}

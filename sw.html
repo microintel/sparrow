@@ -385,6 +385,36 @@
     Toastify(config).showToast();
     }
     
+    function encrpt(t,p) {
+    let text=t;
+    let pass=p;
+    if (!text || !pass) {return "Please enter both text and password."}
+    let salt = CryptoJS.lib.WordArray.random(16);
+    let iv = CryptoJS.lib.WordArray.random(16);
+    let key = CryptoJS.PBKDF2(pass, salt, { keySize: 256 / 32, iterations: 1000 });
+    let en = CryptoJS.AES.encrypt(text, key, { iv: iv, mode: CryptoJS.mode.CBC });
+    let resu = CryptoJS.enc.Base64.stringify(salt.concat(iv).concat(en.ciphertext));
+    
+    return resu;
+    }
+    
+    function decrpt(t,p) {
+    let encry = t;
+    let password = p;
+    if (!encry || !password) { return "Please enter both encrypted text and password." }
+    
+    let rawData = CryptoJS.enc.Base64.parse(encry);
+    let salt = CryptoJS.lib.WordArray.create(rawData.words.slice(0, 4)); 
+    let iv = CryptoJS.lib.WordArray.create(rawData.words.slice(4, 8)); 
+    let cipher = CryptoJS.lib.WordArray.create(rawData.words.slice(8)); 
+    let key = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations: 1000 });
+    let decry = CryptoJS.AES.decrypt({ ciphertext: cipher }, key, { iv: iv, mode: CryptoJS.mode.CBC });
+    let ori = decry.toString(CryptoJS.enc.Utf8);
+    return ori;
+    
+    }
+    
+    
     
     let d = {};
     let ed = {};
@@ -403,9 +433,9 @@
     let filP=getAR.result[0].filePass; //1234
  
     let filPF=getAR.result[0].passUrl;//pass
-    let filDDP=CryptoJS.AES.decrypt(filP,pinPro.toString()).toString(CryptoJS.enc.Utf8);
+    let filDDP=decrpt(filP,pinPro.toString()).toString(CryptoJS.enc.Utf8);
     // alert(filDDP);//nkn
-    let filPPD=CryptoJS.AES.decrypt(filPF,filDDP.toString()).toString(CryptoJS.enc.Utf8);
+    let filPPD=decrpt(filPF,filDDP.toString()).toString(CryptoJS.enc.Utf8);
     //filPPD["sky"].toString();
     let filPX=JSON.parse(filPPD);
   // alert(filPX["sky"]);
@@ -466,7 +496,7 @@
     if(chilen<=3){
     
     d[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=getEl.children[1].value.trim().replace(/ /g,"-");
-    ed[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=CryptoJS.AES.encrypt(getEl.children[1].value.trim().replace(/ /g,"-").toString(),skyp).toString();
+    ed[getEl.children[0].value.trim().replace(/ /g,"-").toLowerCase().toString()]=encrpt(getEl.children[1].value.trim().replace(/ /g,"-").toString(),skyp).toString();
     document.getElementById("out").textContent = JSON.stringify(d, null, 2);
     document.getElementById("out2").textContent = JSON.stringify(ed, null, 2);
     
@@ -481,7 +511,7 @@
     }
     
     temd[chi.id.trim().replace(/ /g,"-").toString()]=chi.value.trim().replace(/ /g,"-").toString();
-    temd1[chi.id.trim().replace(/ /g,"-")]= CryptoJS.AES.encrypt(chi.value.trim().replace(/ /g,"-").toString(),skyp).toString();
+    temd1[chi.id.trim().replace(/ /g,"-")]= encrpt(chi.value.trim().replace(/ /g,"-").toString(),skyp).toString();
    chi.value="";
     }
     
@@ -511,7 +541,7 @@
     return;
     }
     
-    let enc = CryptoJS.AES.encrypt(JSON.stringify(ed), v2).toString();
+    let enc = encrpt(JSON.stringify(ed), v2).toString();
     let blob = new Blob([enc], { type: "application/json" });
     let a = document.createElement("a");
     a.href = URL.createObjectURL(blob);
@@ -544,7 +574,7 @@
     }
     
     try {
-    let decPDA = CryptoJS.AES.decrypt(encPDA, v2).toString(CryptoJS.enc.Utf8);
+    let decPDA = decrpt(encPDA, v2).toString(CryptoJS.enc.Utf8);
     //alert(decPDA);
     let parDa = JSON.parse(decPDA);
     
@@ -561,7 +591,7 @@
     return m[key]=allG(obs[key]);
     }else{
    // alert(m[key]);
-    return m[key]=CryptoJS.AES.decrypt(obs[key],v1).toString(CryptoJS.enc.Utf8);
+    return m[key]=decrpt(obs[key],v1).toString(CryptoJS.enc.Utf8);
     }
     })
     .filter(Boolean)
@@ -576,13 +606,13 @@
   temp[x]={};
   Object.keys(parDa[x]).forEach((vx)=>{
   
-  temp[x][vx]=CryptoJS.AES.decrypt(parDa[x][vx], v1).toString(CryptoJS.enc.Utf8);
+  temp[x][vx]=decrpt(parDa[x][vx], v1).toString(CryptoJS.enc.Utf8);
 //  alert(JSON.stringify(temp));
   });
  
   }else{
   
-  temp[x]=CryptoJS.AES.decrypt(parDa[x],v1).toString(CryptoJS.enc.Utf8);
+  temp[x]=decrpt(parDa[x],v1).toString(CryptoJS.enc.Utf8);
  // alert(JSON.stringify(temp));
   }
   
@@ -626,7 +656,7 @@
     }
     
     try {
-    let decPDA = CryptoJS.AES.decrypt(encPDA, v2).toString(CryptoJS.enc.Utf8);
+    let decPDA = decrpt(encPDA, v2).toString(CryptoJS.enc.Utf8);
     let parDa = JSON.parse(decPDA);
     
     document.getElementById("p1").value=parDa["sky"];

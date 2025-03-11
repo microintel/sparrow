@@ -149,6 +149,36 @@
     Toastify(config).showToast();
     }
     
+    function encrpt(t,p) {
+    let text=t;
+    let pass=p;
+    if (!text || !pass) {return "Please enter both text and password."}
+    let salt = CryptoJS.lib.WordArray.random(16);
+    let iv = CryptoJS.lib.WordArray.random(16);
+    let key = CryptoJS.PBKDF2(pass, salt, { keySize: 256 / 32, iterations: 1000 });
+    let en = CryptoJS.AES.encrypt(text, key, { iv: iv, mode: CryptoJS.mode.CBC });
+    let resu = CryptoJS.enc.Base64.stringify(salt.concat(iv).concat(en.ciphertext));
+    
+    return resu;
+    }
+    
+    function decrpt(t,p) {
+    let encry = t;
+    let password = p;
+    if (!encry || !password) { return "Please enter both encrypted text and password." }
+    
+    let rawData = CryptoJS.enc.Base64.parse(encry);
+    let salt = CryptoJS.lib.WordArray.create(rawData.words.slice(0, 4)); 
+    let iv = CryptoJS.lib.WordArray.create(rawData.words.slice(4, 8)); 
+    let cipher = CryptoJS.lib.WordArray.create(rawData.words.slice(8)); 
+    let key = CryptoJS.PBKDF2(password, salt, { keySize: 256 / 32, iterations: 1000 });
+    let decry = CryptoJS.AES.decrypt({ ciphertext: cipher }, key, { iv: iv, mode: CryptoJS.mode.CBC });
+    let ori = decry.toString(CryptoJS.enc.Utf8);
+    return ori;
+    
+    }
+    
+    
         let db, dbn = "SPRROWGEN", stn = "bird";
         
         let iname=document.getElementById("n");
@@ -211,7 +241,7 @@
         }
         
         // alert(ipin.value);
-        let cx= CryptoJS.AES.encrypt(ifill.value,ipin.value.toString()).toString();
+        let cx= encrpt(ifill.value,ipin.value.toString()).toString();
         let data = { 
         name: iname.value,
         dataUrl: con1,
