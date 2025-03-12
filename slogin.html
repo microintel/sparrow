@@ -6,6 +6,7 @@
     <link rel="manifest" href="manifest.json" />
     <link rel="icon" type="image/x-icon" href="icon512_maskable.png">
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <style type="text/css">
     
     #u1,#u2,#fi1,#fi2{
@@ -32,7 +33,7 @@
     font-family:monosapce;
     padding:0px;
     }
-    input,button,select{
+    .con input,.con button,.con select{
     height:6vh;
     width:60%;
     align-items:center;
@@ -45,18 +46,21 @@
     margin:5px;
     
     }
-    input{
+   .con input{
     background-color:#183D3D;
     }
-    button{
+   .con button{
     background-color:#4961E1;
     }
-    select{
+   .con select{
     background-color:#6A1B9A;
     }
-    input::placeholder{
+   .con input::placeholder{
     color:white;
     
+    }
+    button{
+    width:100%;
     }
     a{
     text-decoration:none;
@@ -135,18 +139,11 @@
     delDab();
     
     function toast(ms,du=4000,bg,cl) {
-    let config = {
-    text:ms,
-    duration: du,
-    close: cl,
-    gravity: "top",
-    position: "center",
-    stopOnFocus: true,
-    backgroundColor:bg,
-    className: "custom-toast",
-    };
-    
-    Toastify(config).showToast();
+    Swal.fire({
+    title:ms,
+    icon:cl,
+    timer:du
+    });
     }
     
     function encrpt(t,p) {
@@ -203,7 +200,7 @@
        
         requs.onsuccess = function () {
         // alert("logout successfully");
-        setTimeout(()=>toast("The Sparrow's twigs are lost.",4000,"green",false),1500);
+        setTimeout(()=>toast("The Sparrow's twigs are lost.",3000,"green","success"),500);
         
         
         };
@@ -253,14 +250,14 @@
         t.onsuccess = () => {
        // alert("New Files Are Stored PERFECTLY...");
         
-        toast("The Sparrow's nest is created.",4000,"green",false);
+        toast("The Sparrow's nest is created.",4000,"green","success");
         // load();
         
         setTimeout(()=>location.href="sparrow.html",1500);
         };
         
         }else{
-        toast("Condition Not Satisfied",2000,"red",false);
+        toast("Condition Not Satisfied",2000,"red","error");
         
         }
         
@@ -300,7 +297,7 @@
         if1.addEventListener("change", (e) => {
         let r = new FileReader();
         r.onload = (d) => {idaDF=d.target.result;
-        toast("Sparrow read and stored the data File",3000,"green",false);
+        toast("Sparrow read and stored the data File",3000,"green","success");
         
         document.getElementById("updf").style.backgroundColor="green";
         };
@@ -311,7 +308,7 @@
         if2.addEventListener("change", (e) => {
         let r1 = new FileReader();
         r1.onload = (d1) =>{ ipaDF=d1.target.result;
-             toast("Sparrow read & stored the password file.",3000,"green",false);
+             toast("Sparrow read & stored the password file.",3000,"green","success");
              document.getElementById("uppf").style.backgroundColor="green";
         };
         r1.readAsText(e.target.files[0]);

@@ -8,6 +8,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     <style>
         body {
@@ -371,18 +372,11 @@
     });
     
     function toast(ms,du=4000,bg,cl) {
-    let config = {
+    Swal.fire({
     text:ms,
-    duration: du,
-    close: cl,
-    gravity: "top",
-    position: "center",
-    stopOnFocus: true,
-    backgroundColor:bg,
-    className: "custom-toast",
-    };
+    icon:cl,
     
-    Toastify(config).showToast();
+    });
     }
     
     function encrpt(t,p) {
@@ -506,7 +500,7 @@
     
     let chi=getEl.children[x];
     if(chi.value==="" || chi.value===" "){
-    toast("please enter all feild",3000,"red",false);
+    toast("please enter all feild",3000,"red","error");
     return
     }
     
@@ -537,7 +531,7 @@
     function down() {
     let v2 = document.getElementById("p2").value.trim();
     if (v2 === "") {
-    toast("Key required for encryption.",3000,"red",false);
+    toast("Key required for encryption.",3000,"red","warning");
     return;
     }
     
@@ -556,7 +550,7 @@
     let file = fileInput.files[0];
     
     if (!file) {
-    toast("Please select a file first!",3000,"red",false);
+    toast("Please select a file first!",3000,"red","error");
     return;
     }
     
@@ -566,7 +560,7 @@
     let v2 = document.getElementById("p2").value.trim();
    let v1= document.getElementById("p1").value.trim();
     if (v2 === "") {
-    toast("Please Upload the pass file first...",3000,"red",false);
+    toast("Please Upload the pass file first...",3000,"red","warning");
     document.getElementById("uppf1").style.backgroundColor="red";
     document.getElementById("uppf1").style.border="2px solid black";
     
@@ -628,7 +622,7 @@
    // alert(JSON.stringify(ed));
     } catch (e) {
    // alert("Decryption failed. Check your password.");
-   toast(e,2000,"red",false);
+   toast(e,2000,"red","error");
     }
     };
     
@@ -641,7 +635,7 @@
     let file = fileInput.files[0];
     
     if (!file) {
-    toast("Please select a file first!",3000,"red",false);
+    toast("Please select a file first!",3000,"red","warning");
     return;
     }
     
@@ -651,7 +645,7 @@
     let v2 = prompt("Enter Breeze Password To Read Pass File..");
     
     if (v2 === "") {
-    toast("Breeze Password Required For Reading File...",3000,"red",false);
+    toast("Breeze Password Required For Reading File...",3000,"red","warning");
     return;
     }
     
@@ -661,7 +655,7 @@
     
     document.getElementById("p1").value=parDa["sky"];
     document.getElementById("p2").value=parDa["breez"];
-    toast("Pass File Read successfully...",3000,"green",false);
+    toast("Pass File Read successfully...",3000,"green","success");
     document.getElementById("uppf").style.backgroundColor="green";
     document.getElementById("uppf").style.border="2px solid black";
    // document.getElementById("out2").textContent = JSON.stringify(parDa, null, 2);
@@ -674,7 +668,7 @@
   //  document.getElementById("out").textContent = JSON.stringify(d, null, 2);
   // ed = parDa;
      catch (e) {
-    toast("File Reading Failed, Due to Incorrect Password.",3000,"red",false);
+    toast("File Reading Failed, Due to Incorrect Password.",3000,"red","error");
     document.getElementById("uppf").style.backgroundColor="red";
     document.getElementById("uppf").style.border="2px solid black";
     }

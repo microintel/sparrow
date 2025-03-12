@@ -29,7 +29,7 @@
             font-size: 18px;
         }
 
-        input, button {
+        .con input, .con button {
             display: block;
             width: 70%;
            
@@ -48,13 +48,13 @@
             color: #fff;
         }
 
-        button {
+       .con button {
             background: #000;
             color: #fff;
             cursor: pointer;
         }
 
-        button:active {
+       .con button:active {
             background: #111;
         }
 
@@ -105,7 +105,7 @@
         input{
         background-color:#183D3D;
         }
-        button{
+        .con button{
         background-color:#6A1B9A;
         }
         pre{
@@ -129,8 +129,12 @@
         
         
         }
+        button{
+        width:100%;
+        }
         
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href=" https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
 </head>
 <body>
@@ -201,18 +205,11 @@
     });
     
     function toast(ms,du=4000,bg,cl) {
-    let config = {
+    Swal.fire({
     text:ms,
-    duration: du,
-    close: cl,
-    gravity: "top",
-    position: "center",
-    stopOnFocus: true,
-    backgroundColor:bg,
-    className: "custom-toast",
-    };
-    
-    Toastify(config).showToast();
+    icon:cl,
+    timer:du
+    });
     }
     
     
@@ -230,7 +227,7 @@
                 document.getElementById("out").textContent = JSON.stringify(d, null, 2);
             }
             else{
-            toast("please enter all feild",3000,"red",false);
+            toast("please enter all feild",3000,"red","error");
             }
         }
 
@@ -264,7 +261,7 @@
             let file = fileInput.files[0];
 
             if (!file) {
-                toast("Please select a file first!",3000,"red",false);
+                toast("Please select a file first!",3000,"red","error");
                 return;
             }
 
@@ -274,7 +271,7 @@
                 let passwd = prompt("Enter the Breez passwd to Read File :");
 
                 if (!passwd) {
-                    toast("Read canceled due to incorrect Password",2500,"red",false);
+                    toast("Read canceled due to incorrect Password",2500,"red","error");
                     document.getElementById("uppf").style.backgroundColor="red";
                     document.getElementById("uppf").style.border="2px solid black";
                     return;
@@ -285,12 +282,12 @@
                     let parcnd = JSON.parse(decnD);
                     document.getElementById("out").textContent = JSON.stringify(parcnd, null, 2);
                     d = parcnd;
-                    toast("File Read Successfully...",3000,"green",false);
+                    toast("File Read Successfully...",3000,"green","success");
                     document.getElementById("uppf").style.backgroundColor="green";
                     document.getElementById("uppf").style.border="2px solid black";
                 } catch (e) {
-                    toast("File Read failed! Incorrect passwd or corrupted file.",3000,"red",false);
-                    toast("please reload this page to proceed without problems",2000,"skyblue",false);
+                    toast(`File Read failed, du to incorrect Password or CorrepteD File.`,3000,"red","error");
+                   //toast("please reload this page to proceed without problems",2000,"skyblue","warning");
                     document.getElementById("uppf").style.backgroundColor="red";
                     document.getElementById("uppf").style.border="2px solid black";
                 }
