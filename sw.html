@@ -229,6 +229,8 @@
       <option value="aadhar-details"> Aadhar Card </option>
       <option value="pancard-details"> Pan Card</option>
       <option value="voter-id-details"> Voter Id Card </option>
+      <option value="ration-card-id-details"> Ration Card </option>
+      <option value="bank-id-details"> Bank Account</option>
       
    </select>
    <i class="fa-solid fa-download" onclick="down()"></i>
@@ -236,45 +238,17 @@
     </div>
     
     <center><div id="sug-box" class="sug-box"></div></center>
+    <!--
     
-    
-    
-    
-    <div style="display:none;" id="aadhar-details" class="sele aadhaar">
+    <div style="display:none;" id="//-id-details" class="sele //">
     <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
-    <input oninput="showSug(this)" id="aadhaar-refer" placeholder="Aadhaar Refrence(e.g. my aadhaar)"> 
-    <input id="aadhaar-name" placeholder="Name">  
-    <input id="aadhaar-number" placeholder="Number">
-    <input id="aadhaar-dob" placeholder="Dob">
-    <input id="aadhaar-gender" placeholder="gender"> 
-    <input id="aadhaar-address" placeholder="address"> 
-    <input id="aadhaar-linked-phnumber" placeholder="linked phone number"> 
-    <input id="aadhaar-enrollment-number" placeholder="enrollment number">
-    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('aadhar-details')"> Save Data </button>
+    <input oninput="showSug(this)" id="//-id-refer" placeholder="Ration Card(e.g. my //)"> 
+    
+    <input id=" " placeholder=" ">  
+    
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('//-id-details')"> Save Data </button>
     </div>
-    
-    <div style="display:none;" id="pancard-details" class="sele pancard">
-    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
-    <input oninput="showSug(this)" id="pancard-refer" placeholder="PAN Card Reference (e.g. my PAN card)"> 
-    <input id="pan-name" placeholder="Name"> 
-    <input id="pan-father-name" placeholder="Father Name"> 
-    <input id="pan-number" placeholder="Number"> 
-    <input id="pan-dob" placeholder="DOB"> 
-    <input id="pan-gender" placeholder="Gender"> 
-    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('pancard-details')"> Save Data </button>
-    </div>
-    
-    <div style="display:none;" id="voter-id-details" class="sele voterID">
-       <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
-       <input oninput="showSug(this)" id="voter-id-refer" placeholder="Voter ID Card(e.g. my Vote card)"> 
-       <input id="voterID-name" placeholder="Name ( enter both lang )">  
-       <input id="voterID-other" placeholder="Other Name">  
-       <input id="voterID-number" placeholder="Number">  
-       <input id="voterID-dob" placeholder="DOB"> 
-       <input id="voterID-gender" placeholder="Gender">  
-       <input id="voterID-address" placeholder="Address"> 
-    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('voter-id-details')"> Save Data </button>
-    </div>
+    -->
     
     
     
@@ -288,32 +262,6 @@
     
     
     
-    
-    
-    
-
-    
-    <div style="display:none;" id="double-data-details" class="sele double">
-    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
-    <input id="double-data-refer" oninput="showSug(this)" placeholder="head Reference (e.g. device)">
-    <input id="device-name" ondblclick="remC(this)" placeholder="Device Name"> 
-    <input id="device-imei-number" ondblclick="remC(this)" placeholder="Device IMEI Number"> 
-    
-    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('double-data-details')"> Save Data </button>
-    </div>
-    
-    
-    
-    
-    
-    
-    <div style="display:none;" id="single-data-details" class="sele single">
-    
-    <input id="single-data-refer" style="background-color:#184D4D;" oninput="showSug(this)" placeholder="Data Reference (e.g. IMEI NUMNER)">
-    <input id="single-data-value" style="background-color:black;border:0px solid black;border-bottom:1px solid grey;" placeholder="Data (e.g. 38283828338)">
- 
-    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('single-data-details')"> Save Data </button>
-    </div>
     
     
     <button style="display:none;" onclick="upd()">Upload</button>
@@ -326,6 +274,20 @@
 
 <a href="slogin.html" > Click Here to login into Sparrow </a>
     <script>
+    
+    async function fetTemp() {
+    let fet = await fetch("https://microintel.github.io/sparrow/temp.html");
+    let fetc = await fet.text();
+    
+    let el6 = document.body.children[5]; 
+    el6.insertAdjacentHTML("beforebegin", fetc);
+    }
+    
+    fetTemp();
+    
+    
+    
+    
     
     function remC(x){
     x.remove();

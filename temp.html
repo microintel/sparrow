@@ -1,27 +1,3 @@
-<div style="display:none;" id="double-data-details" class="sele double">
-    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
-    <input id="double-data-refer" oninput="showSug(this)" placeholder="head Reference (e.g. device)">
-    <input id="device-name" ondblclick="remC(this)" placeholder="Device Name"> 
-    <input id="device-imei-number" ondblclick="remC(this)" placeholder="Device IMEI Number"> 
-    
-    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('double-data-details')"> Save Data </button>
-    </div>
-    
-    
-    
-    
-    
-    
-    <div style="display:none;" id="single-data-details" class="sele single">
-    
-    <input id="single-data-refer" style="background-color:#184D4D;" oninput="showSug(this)" placeholder="Data Reference (e.g. IMEI NUMNER)">
-    <input id="single-data-value" style="background-color:black;border:0px solid black;border-bottom:1px solid grey;" placeholder="Data (e.g. 38283828338)">
- 
-    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('single-data-details')"> Save Data </button>
-    </div>
-
-
-
 <div style="display:none;" id="aadhar-details" class="sele aadhaar">
     <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
     <input oninput="showSug(this)" id="aadhaar-refer" placeholder="Aadhaar Refrence(e.g. my aadhaar)"> 
@@ -38,11 +14,10 @@
     <div style="display:none;" id="pancard-details" class="sele pancard">
     <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
     <input oninput="showSug(this)" id="pancard-refer" placeholder="PAN Card Reference (e.g. my PAN card)"> 
-    <input id="pan-name" placeholder="Name"> 
-    <input id="pan-father-name" placeholder="Father Name"> 
-    <input id="pan-number" placeholder="Number"> 
-    <input id="pan-dob" placeholder="DOB"> 
-    <input id="pan-gender" placeholder="Gender"> 
+    <input id="pan-name" placeholder="Pan Name"> 
+    <input id="pan-father-name" placeholder="Father's Name"> 
+    <input id="pan-number" placeholder="Pan Number"> 
+    <input id="pan-dob" placeholder=" Pan DOB"> 
     <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('pancard-details')"> Save Data </button>
     </div>
     
@@ -56,4 +31,32 @@
        <input id="voterID-gender" placeholder="Gender">  
        <input id="voterID-address" placeholder="Address"> 
     <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('voter-id-details')"> Save Data </button>
+    </div>
+    
+    
+    <div style="display:none;" id="ration-card-id-details" class="sele rationCard">
+    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
+    <input oninput="showSug(this)" id="ration-card-id-refer" placeholder="Ration Card(e.g. my ration Card)"> 
+    
+    <input id="Card-Number" placeholder="Ration Card Number ">  
+    <input id="card-type" placeholder="Ration Card Type">  
+    <input id="fair-price-shop-no-&-name" placeholder="Fair Price Shop No & Name">  
+    <input id="total-family-members" placeholder="Total Family Members">  
+    <input id="card-member-1" placeholder="Card Member 1- Name/Age (any language)">  
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('ration-card-id-details')"> Save Data </button>
+    </div>
+    
+    
+    <div style="display:none;" id="bank-id-details" class="sele bank">
+    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
+    <input oninput="showSug(this)" id="bank-id-refer" placeholder="Bank Account (e.g. bank)"> 
+    
+    <input id="bank-name" placeholder="Name Of The Bank">  
+    <input id="branch-name" placeholder="Branch Name">  
+    <input id="customer-id" placeholder="Customer Id">  
+    <input id="account-number" placeholder="Account Number">  
+    <input id="account-name" placeholder="Account Name">  
+    <input id="ifsc-code" placeholder="IFSC CODE">  
+    
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('bank-id-details')"> Save Data </button>
     </div>
