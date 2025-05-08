@@ -1,3 +1,26 @@
+<div style="display:none;" id="double-data-details" class="sele double">
+    <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
+    <input id="double-data-refer" oninput="showSug(this)" placeholder="head Reference (e.g. device)">
+    <input id="device-name" ondblclick="remC(this)" placeholder="Device Name"> 
+    <input id="device-imei-number" ondblclick="remC(this)" placeholder="Device IMEI Number"> 
+    
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('double-data-details')"> Save Data </button>
+    </div>
+    
+    
+    
+    
+    
+    
+    <div style="display:none;" id="single-data-details" class="sele single">
+    
+    <input id="single-data-refer" style="background-color:#184D4D;" oninput="showSug(this)" placeholder="Data Reference (e.g. IMEI NUMNER)">
+    <input id="single-data-value" style="background-color:black;border:0px solid black;border-bottom:1px solid grey;" placeholder="Data (e.g. 38283828338)">
+ 
+    <button style="background-color:#4961E1;border:0px solid black;border-bottom:1px solid grey;" onclick="upd('single-data-details')"> Save Data </button>
+    </div>
+
+
 <div style="display:none;" id="aadhar-details" class="sele aadhaar">
     <button style="background-color:#2C2F33;border:0px solid black;border-bottom:1px solid grey;" onclick="addCh(this)"> Create Feild </button>
     <input oninput="showSug(this)" id="aadhaar-refer" placeholder="Aadhaar Refrence(e.g. my aadhaar)"> 
